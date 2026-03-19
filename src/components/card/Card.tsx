@@ -4,9 +4,11 @@ import {
   CardContent,
   Typography,
   Rating,
+  Box,
 } from "@mui/material";
 import noImagePic from "../../assets/no-image.png";
 import type { Movie } from "../../types/movies/movies";
+import { getColorByRating } from "../../helpers/search-helpers";
 
 interface MovieCardProps {
   movie: Movie;
@@ -53,11 +55,24 @@ export function MovieCard({ movie }: MovieCardProps) {
           gutterBottom
           variant="subtitle1"
           component="div"
-          sx={{ lineHeight: 1.2 }}
+          sx={{ lineHeight: 1.2, fontWeight: "bold" }}
         >
-          {movie.alternativeName} ({movie.year})
+          {movie.name || movie.alternativeName} {movie.year}
         </Typography>
-        <Rating value={movie.rating?.imdb} readOnly precision={0.5} />
+        {movie?.rating?.imdb ? (
+          <Box display="flex" flexDirection={"row"} gap="1">
+            <Typography variant="body2">Рейтинг:</Typography>
+            <Typography
+              variant="body2"
+              color={getColorByRating(movie?.rating?.imdb)}
+              sx={{ fontWeight: "bold", marginX: "5px" }}
+            >
+              {movie?.rating?.imdb}
+            </Typography>
+          </Box>
+        ) : (
+          <></>
+        )}
       </CardContent>
     </Card>
   );

@@ -5,33 +5,77 @@ import noImagePic from "../../assets/no-image.png";
 import { testData } from "./testData";
 import Header from "../../components/header/Header";
 import type { MovieFullInfo } from "../../types/movies/movies";
+import { getMovieInfo } from "../../api/movie-api/movieInfoApi";
+import { getLengthStr } from "../../helpers/movie-helpers";
+import ConfirmModal from "./confirm-modal/confirmModal";
 
 export function MoviePage() {
   let params = useParams();
   const [movieInfo, setMovieInfo] = useState<MovieFullInfo | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    // getMovieInfo(params.movieId)
-    //   .then((response) => {
-    //     setMovieInfo(response.data);
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    setMovieInfo(testData);
+    setIsLoading(true);
+    getMovieInfo(params.movieId)
+      .then((response) => {
+        setMovieInfo(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [params.movieId]);
 
-  // if (!movieInfo) {
-  //   return <Typography>Loading...</Typography>;
-  // }
+  useEffect(() => {
+    if (movieInfo) {
+      const favoritesString = localStorage.getItem("favoriteMovies");
+      const favoriteMovies: MovieFullInfo[] = favoritesString
+        ? JSON.parse(favoritesString)
+        : [];
+      const exists = favoriteMovies.some((f) => f.id === movieInfo.id);
+      setIsFavorite(exists);
+    }
+  }, [movieInfo]);
 
-  const hours = Math.floor((movieInfo?.movieLength || 0) / 60);
-  const minutes = (movieInfo?.movieLength || 0) % 60;
-  const lengthStr = `${hours}ч ${minutes}мин`;
+  if (isLoading) {
+    return <Typography>Загрузка...</Typography>;
+  }
 
-  const handleAddToFavorites = () => {
-    alert("Added to favourites!");
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleFavorites = () => {
+    if (!movieInfo) return;
+    const favoritesKey = "favoriteMovies";
+
+    const favoritesString = localStorage.getItem(favoritesKey);
+    let favoriteMovies: MovieFullInfo[] = favoritesString
+      ? JSON.parse(favoritesString)
+      : [];
+
+    if (isFavorite) {
+      favoriteMovies = favoriteMovies.filter((f) => f.id !== movieInfo.id);
+    } else {
+      favoriteMovies.push(movieInfo);
+    }
+    localStorage.setItem(favoritesKey, JSON.stringify(favoriteMovies));
+    setIsFavorite((isFavorite) => !isFavorite);
+  };
+
+  const handleConfirmAddition = () => {
+    if (movieInfo) {
+      handleFavorites();
+    }
+    handleCloseModal();
   };
 
   return (
@@ -49,9 +93,9 @@ export function MoviePage() {
         }}
       >
         <Button
-          variant="contained"
-          color="error"
-          onClick={handleAddToFavorites}
+          variant={isFavorite ? "outlined" : "contained"}
+          color={isFavorite ? "secondary" : "primary"}
+          onClick={handleOpenModal}
           sx={{
             position: "absolute",
             top: 16,
@@ -67,7 +111,7 @@ export function MoviePage() {
             },
           }}
         >
-          Добавить в избранное
+          {isFavorite ? "Удалить из избранного" : "Добавить в избранное"}
         </Button>
 
         <Box
@@ -124,24 +168,39 @@ export function MoviePage() {
           </Box>
 
           <Box sx={{ flex: 1 }}>
-            <Typography variant="h4" gutterBottom textAlign="center">
-              {movieInfo?.alternativeName} ({movieInfo?.year})
+            <Typography variant="h4" gutterBottom>
+              {movieInfo?.name || movieInfo?.alternativeName} ({movieInfo?.year}
+              )
             </Typography>
-            <Box
-              display="flex"
-              alignItems="center"
-              gap={2}
-              justifyContent="center"
-              mb={2}
-            >
-              {movieInfo?.rating && (
+            {movieInfo?.description ? (
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                textAlign="left"
+                sx={{ lineHeight: "1.5" }}
+              >
+                {movieInfo?.description}
+              </Typography>
+            ) : (
+              <></>
+            )}
+            <Box display="flex" alignItems="center" gap={2} mb={2}>
+              {movieInfo?.rating?.imdb ? (
                 <Typography variant="body1">
-                  IMDB Rating: {movieInfo?.rating.imdb}
+                  Рейтинг: {movieInfo?.rating.imdb}
                 </Typography>
+              ) : (
+                <></>
               )}
-              <Typography variant="body1">Length: {lengthStr}</Typography>
+              {movieInfo?.movieLength ? (
+                <Typography variant="body1">
+                  Длительность: {getLengthStr(movieInfo)}
+                </Typography>
+              ) : (
+                <></>
+              )}
             </Box>
-            <Box display="flex" flexWrap="wrap" gap={1} justifyContent="center">
+            <Box display="flex" flexWrap="wrap" gap={1}>
               {movieInfo?.genres?.map((genre) => (
                 <Chip
                   key={genre.name}
@@ -154,6 +213,13 @@ export function MoviePage() {
           </Box>
         </Box>
       </Paper>
+      <ConfirmModal
+        isFavorite={isFavorite}
+        open={isModalOpen}
+        movieName={movieInfo?.name || movieInfo?.alternativeName}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmAddition}
+      />
     </Box>
   );
 }

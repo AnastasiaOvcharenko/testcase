@@ -4,6 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router";
+import SearchBar from "./searchHeader/SearchHeader";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function Header() {
           >
             Кинопоиск
           </Typography>
+          <SearchBar />
           <Button color="inherit" onClick={() => navigate(-1)}>
             ← Назад
           </Button>

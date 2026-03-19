@@ -7,6 +7,7 @@ export interface Movie {
     url?: string;
     previewUrl?: string;
   };
+  name?: string;
   alternativeName?: string;
   year?: number;
   rating?: {
@@ -18,4 +19,5 @@ export interface Movie {
 
 export interface MovieFullInfo extends Movie {
   movieLength?: number;
+  description?: string;
 }

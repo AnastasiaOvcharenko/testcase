@@ -23,19 +23,27 @@ import { useSearchParams } from "react-router";
 import type { Filters } from "../../types/filters/filters";
 
 const currentYear = new Date().getFullYear();
-
 const yearMarks = generateMarks(1990, currentYear, 5);
 const ratingMarks = generateMarks(0, 10, 1);
 
+const initValues = {
+  genres: [],
+  year: [1990, currentYear],
+  selectedGenres: [],
+  rating: [0, 10],
+};
+
 function Filter() {
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>(
+    initValues.selectedGenres,
+  );
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [rating, setRating] = useState<number[]>([0, 10]);
-  const [year, setYear] = useState<number[]>([1990, currentYear]);
-  const [genres, setGenres] = useState<string[]>([]);
+  const [rating, setRating] = useState<number[]>(initValues.rating);
+  const [year, setYear] = useState<number[]>(initValues.year);
+  const [genres, setGenres] = useState<string[]>(initValues.genres);
 
-  const [expanded, setExpanded] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState<boolean>(true);
 
   useEffect(() => {
     setGenres(testData.map((entry) => entry.name));
@@ -54,15 +62,30 @@ function Filter() {
     //   });
   }, []);
 
+  useEffect(() => {
+    const genresParam = searchParams.get("genres");
+    const yearParam = searchParams.get("year");
+    const ratingParam = searchParams.get("rating");
+
+    setSelectedGenres(genresParam?.split(",") || initValues.genres);
+
+    const yearValues = yearParam?.split(",").map(Number);
+    setYear(yearValues?.length === 2 ? yearValues : initValues.year);
+
+    const ratingValues = ratingParam?.split(",").map(Number);
+
+    setRating(ratingValues?.length === 2 ? ratingValues : initValues.rating);
+  }, [searchParams]);
+
   const updateUrl = (filters: Filters) => {
     const params = new URLSearchParams();
     const paramsString = encodeFilters(filters, params);
     setSearchParams(paramsString);
   };
 
-  const onFilterSubmit = (filters: Filters) => {
-    updateUrl(filters);
-  };
+  // const onFilterSubmit = (filters: Filters) => {
+  //   updateUrl(filters);
+  // };
 
   const handleToggle = () => {
     setExpanded((prev) => !prev);
@@ -84,7 +107,7 @@ function Filter() {
   };
 
   const handleSubmit = () => {
-    onFilterSubmit({
+    updateUrl({
       genres: selectedGenres,
       year,
       rating,
