@@ -1,7 +1,9 @@
-import { Avatar, Box, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Paper, Typography, Button } from "@mui/material";
 import { getColorByRating } from "../../../../helpers/search-helpers";
+import { useLocation, useNavigate } from "react-router";
 import type { Movie } from "../../../../types/movies/movies";
-import { useNavigate } from "react-router";
+import { useContext } from "react";
+import { CompareContext } from "../../../../pages/main-page/state/CompareContext";
 
 interface MovieSearchItemProps {
   movie: Movie;
@@ -10,6 +12,11 @@ interface MovieSearchItemProps {
 export const MovieSearchItem = ({ movie }: MovieSearchItemProps) => {
   const { id, name, alternativeName, rating, poster, year } = movie;
   const navigate = useNavigate();
+  const location = useLocation();
+  const { addMovie } = useContext(CompareContext);
+
+  const isMainPage = location.pathname === "/";
+
   return (
     <div onClick={() => navigate(`/movie/${id}`)}>
       <Paper
@@ -30,28 +37,57 @@ export const MovieSearchItem = ({ movie }: MovieSearchItemProps) => {
         />
 
         <Box
-          sx={{ display: "flex", flexDirection: "column", overflowX: "hidden" }}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            overflowX: "hidden",
+          }}
         >
-          <Typography variant="subtitle1" component="div" noWrap>
-            {name || alternativeName}
-          </Typography>
-
-          <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
-            {rating?.imdb ? (
-              <Typography
-                variant="body2"
-                color={getColorByRating(rating.imdb)}
-                sx={{ fontWeight: "bold" }}
-              >
-                {rating?.imdb}
-              </Typography>
-            ) : (
-              <></>
-            )}
-            <Typography variant="body2" color="text.secondary">
-              {year}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              overflowX: "hidden",
+            }}
+          >
+            <Typography variant="subtitle1" component="div" noWrap>
+              {name || alternativeName}
             </Typography>
+
+            <Box sx={{ display: "flex", flexDirection: "row", gap: 1 }}>
+              {rating?.imdb ? (
+                <Typography
+                  variant="body2"
+                  color={getColorByRating(rating.imdb)}
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {rating?.imdb}
+                </Typography>
+              ) : (
+                <></>
+              )}
+              <Typography variant="body2" color="text.secondary">
+                {year}
+              </Typography>
+            </Box>
           </Box>
+
+          {isMainPage && (
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ flexShrink: 0 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                addMovie(movie);
+              }}
+            >
+              Сравнить
+            </Button>
+          )}
         </Box>
       </Paper>
     </div>

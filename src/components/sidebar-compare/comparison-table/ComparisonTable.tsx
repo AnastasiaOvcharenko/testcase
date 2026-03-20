@@ -4,16 +4,15 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
   Typography,
   Box,
+  Avatar,
 } from "@mui/material";
 import { CompareContext } from "../../../pages/main-page/state/CompareContext";
 import { getLengthStr } from "../../../helpers/movie-helpers";
 import type { Genre, Movie } from "../../../types/movies/movies";
-// import noImagePic from "../../../assets/no-image.png";
 
 const ComparisonTable = () => {
   const { movies } = useContext(CompareContext);
@@ -38,7 +37,7 @@ const ComparisonTable = () => {
     {
       label: "Рейтинг IMDb",
       getValue: (movie: Movie) =>
-        movie.rating?.imdb !== undefined ? movie.rating.imdb.toFixed(1) : "-",
+        movie?.rating?.imdb ? movie.rating.imdb.toFixed(1) : "-",
     },
     {
       label: "Жанры",
@@ -46,7 +45,8 @@ const ComparisonTable = () => {
     },
     {
       label: "Длительность",
-      getValue: (movie: Movie) => getLengthStr(movie),
+      getValue: (movie: Movie) =>
+        movie.movieLength ? getLengthStr(movie) : "-",
     },
   ];
 
@@ -61,11 +61,65 @@ const ComparisonTable = () => {
         <Typography>Добавьте фильм!</Typography>
       </Box>
     );
+
+  const renderMovieCell = (movie: Movie) => (
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      p={1}
+      width={"100%"}
+    >
+      <Avatar
+        src={movie.poster?.url}
+        alt={movie.name}
+        sx={{ width: 80, height: 120, mb: 1, bgcolor: "#f0f0f0" }}
+        variant="rounded"
+      />
+      <Typography
+        variant="body2"
+        align="center"
+        noWrap
+        sx={{
+          // maxWidth: 100,
+          lineHeight: 1.1,
+          wordWrap: "break-word",
+          whiteSpace: "normal",
+        }}
+      >
+        {movie.name || movie.alternativeName || "-"}
+      </Typography>
+    </Box>
+  );
+
   return (
-    <Box height="100%" display={"flex"} alignItems={"center"}>
-      <TableContainer component={Paper} sx={{ margin: "auto", height: "100%" }}>
+    <Box
+      height="100%"
+      display={"flex"}
+      flexDirection="column"
+      alignItems="center"
+      overflow="auto"
+    >
+      <Box display="flex" justifyContent="center" mb={2} width="100%">
+        {movies?.map((movie, index) => (
+          <Box
+            key={index}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            width="150px"
+            mx={1}
+          >
+            {renderMovieCell(movie)}
+          </Box>
+        ))}
+      </Box>
+
+      <TableContainer
+        component={Paper}
+        sx={{ width: "100%", maxWidth: 800, mx: "auto", boxShadow: "none" }}
+      >
         <Table aria-label="comparison table">
-          <TableHead></TableHead>
           <TableBody>
             {rows.map((row, rowIndex) => (
               <TableRow
@@ -74,9 +128,13 @@ const ComparisonTable = () => {
                   backgroundColor: rowIndex % 2 === 0 ? "#fafafa" : "white",
                 }}
               >
-                <TableCell sx={{ fontWeight: "bold" }}>{row.label}</TableCell>
+                <TableCell sx={{ fontWeight: "bold", minWidth: 150 }}>
+                  {row.label}
+                </TableCell>
                 {movies.map((movie, index) => (
-                  <TableCell key={index}>{row.getValue(movie)}</TableCell>
+                  <TableCell key={index} align="center">
+                    {row.getValue(movie)}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}

@@ -45,7 +45,9 @@ const SidebarCompare = () => {
           <Button onClick={clearMovies}>Очистить</Button>
         </Box>
 
-        <ComparisonTable />
+        <Box visibility={isOpen ? "visible" : "hidden"} height={"100%"}>
+          <ComparisonTable />
+        </Box>
       </Box>
     </Paper>
   );

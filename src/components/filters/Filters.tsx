@@ -96,7 +96,6 @@ function FiltersBox() {
 
   return (
     <Paper
-      elevation={3}
       sx={{
         width: "100%",
         maxWidth: "100%",
@@ -129,59 +128,76 @@ function FiltersBox() {
       </Box>
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <Box sx={{ px: 3, py: 3 }}>
-          <Typography gutterBottom>Жанры</Typography>
-          <FormControl fullWidth sx={{ mb: 3 }}>
-            <InputLabel htmlFor="genres-label">
-              Выберите один или несколько...
-            </InputLabel>
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={3}
+          sx={{ px: 3, py: 3 }}
+        >
+          <Box display={"flex"} alignItems={"center"} gap={3}>
+            <Typography width={"10%"}>Жанры:</Typography>
+            <Box display={"flex"} alignItems={"center"} width={"100%"}>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="genres-label">
+                  Выберите один или несколько...
+                </InputLabel>
 
-            <Select
-              labelId="genres-label"
-              id="genres"
-              label="Выберите один или несколько..."
-              multiple
-              value={filters.genres}
-              onChange={handleSelectChange}
-              displayEmpty
-              renderValue={(selected) => selected.join(", ")}
-            >
-              {genres.map((genre) => (
-                <MenuItem key={genre} value={genre}>
-                  <Checkbox
-                    checked={
-                      filters?.genres && filters.genres.indexOf(genre) > -1
-                    }
-                  />
-                  <ListItemText primary={genre} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                <Select
+                  labelId="genres-label"
+                  id="genres"
+                  label="Выберите один или несколько..."
+                  multiple
+                  value={filters.genres}
+                  onChange={handleSelectChange}
+                  displayEmpty
+                  renderValue={(selected) => selected.join(", ")}
+                >
+                  {genres.map((genre) => (
+                    <MenuItem key={genre} value={genre}>
+                      <Checkbox
+                        checked={
+                          filters?.genres && filters.genres.indexOf(genre) > -1
+                        }
+                      />
+                      <ListItemText primary={genre} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
 
-          <Typography gutterBottom>Год выпуска</Typography>
-          <Slider
-            value={filters.year}
-            onChange={(_, value) => handleSliderChange("year", value)}
-            valueLabelDisplay="auto"
-            min={1990}
-            max={currentYear}
-            step={1}
-            sx={{ mb: 3 }}
-            marks={yearMarks}
-          />
+          <Box display={"flex"} gap={3}>
+            <Typography width={"10%"} gutterBottom sx={{ flexShrink: 0 }}>
+              Год выпуска:
+            </Typography>
+            <Slider
+              value={filters.year}
+              onChange={(_, value) => handleSliderChange("year", value)}
+              valueLabelDisplay="auto"
+              min={1990}
+              max={currentYear}
+              step={1}
+              sx={{ mb: 3 }}
+              marks={yearMarks}
+            />
+          </Box>
 
-          <Typography gutterBottom>Рейтинг</Typography>
-          <Slider
-            value={filters.rating}
-            onChange={(_, value) => handleSliderChange("rating", value)}
-            valueLabelDisplay="auto"
-            min={0}
-            max={10}
-            step={0.1}
-            sx={{ mb: 3 }}
-            marks={ratingMarks}
-          />
+          <Box display={"flex"} gap={3}>
+            <Typography width={"10%"} gutterBottom sx={{ flexShrink: 0 }}>
+              Рейтинг:
+            </Typography>
+            <Slider
+              value={filters.rating}
+              onChange={(_, value) => handleSliderChange("rating", value)}
+              valueLabelDisplay="auto"
+              min={0}
+              max={10}
+              step={0.1}
+              sx={{ mb: 3 }}
+              marks={ratingMarks}
+            />
+          </Box>
 
           <Box display={"flex"} gap={1}>
             <Button

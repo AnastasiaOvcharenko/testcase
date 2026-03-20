@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 // import { testData } from "./testData";
 import { useSearchParams } from "react-router";
 import Header from "../../components/header/Header";
@@ -9,6 +9,7 @@ import MovieList from "../../components/movie-list/MovieList";
 import SidebarCompare from "../../components/sidebar-compare/SidebarCompare";
 import { CompareProvider } from "./state/CompareContext";
 import FiltersBox from "../../components/filters/Filters";
+import Loader from "../../shared/loader/Loader";
 
 const MainPage = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
@@ -53,7 +54,7 @@ const MainPage = () => {
 
   useEffect(() => {
     if (!fetching) return;
-
+    // setMovieList(testData.docs);
     setLoading(true);
     getMoviesByFilters({
       limit: 50,
@@ -84,11 +85,11 @@ const MainPage = () => {
         <Grid display={"flex"} gap={1} marginY={2} width={"100%"}>
           <SidebarCompare />
           <Box width={"100%"}>
-            <Grid container spacing={4} width={"100%"} justifyContent="center">
+            <Grid container spacing={4} justifyContent="center">
               <FiltersBox />
             </Grid>
             <MovieList movieList={movieList} variant="main" />
-            {loading ? <CircularProgress /> : <></>}
+            {loading && <Loader />}
           </Box>
         </Grid>
       </CompareProvider>

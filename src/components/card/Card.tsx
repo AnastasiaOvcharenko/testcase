@@ -58,11 +58,11 @@ export function MovieCard({ movie, variant }: MovieCardProps) {
           <div style={{ flexGrow: 1 }} />
           <CardContent
             sx={{
+              paddingTop: 0,
               paddingBottom: 1,
             }}
           >
             <Typography
-              gutterBottom
               variant="subtitle1"
               component="div"
               sx={{
@@ -98,9 +98,6 @@ export function MovieCard({ movie, variant }: MovieCardProps) {
                 variant="contained"
                 color="primary"
                 size="small"
-                sx={{
-                  width: "60%",
-                }}
               >
                 Сравнить
               </Button>
