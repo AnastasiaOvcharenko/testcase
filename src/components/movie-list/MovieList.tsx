@@ -1,29 +1,24 @@
 import { Grid } from "@mui/material";
 import type { Movie } from "../../types/movies/movies";
-import { useNavigate } from "react-router";
 import { MovieCard } from "../card/Card";
 
 interface MovieListProps {
   movieList: Movie[];
+  variant: "main" | "favorites";
 }
 
-const MovieList = ({ movieList }: MovieListProps) => {
-  const navigate = useNavigate();
+const MovieList = ({ movieList, variant }: MovieListProps) => {
   return (
     <Grid
       container
       spacing={2}
       justifyContent="center"
       sx={{
-        padding: 3,
+        paddingY: 3,
       }}
     >
       {movieList.map((movie) => {
-        return (
-          <div key={movie.id} onClick={() => navigate(`/movie/${movie.id}`)}>
-            <MovieCard movie={movie} />
-          </div>
-        );
+        return <MovieCard variant={variant} movie={movie} />;
       })}
     </Grid>
   );

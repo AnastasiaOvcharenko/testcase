@@ -1,4 +1,4 @@
-interface Genre {
+export interface Genre {
   name?: string;
 }
 
@@ -15,9 +15,9 @@ export interface Movie {
   };
   genres?: Genre[];
   id?: number;
+  movieLength?: number;
 }
 
 export interface MovieFullInfo extends Movie {
-  movieLength?: number;
   description?: string;
 }

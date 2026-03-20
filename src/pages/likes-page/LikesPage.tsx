@@ -12,7 +12,7 @@ const LikesPage = () => {
     <>
       <Header />
       <div>
-        <MovieList movieList={favoriteMovies} />
+        <MovieList variant="favorites" movieList={favoriteMovies} />
       </div>
     </>
   );

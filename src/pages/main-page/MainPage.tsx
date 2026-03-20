@@ -1,28 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
-import {  Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { testData } from "./testData";
 import { useSearchParams } from "react-router";
 import Header from "../../components/header/Header";
-import Filter from "../../components/filter/Filter";
 import { getMoviesByFilters } from "../../api/movie-api/movieListApi";
 import type { Movie } from "../../types/movies/movies";
 import MovieList from "../../components/movie-list/MovieList";
+import SidebarCompare from "../../components/sidebar-compare/SidebarCompare";
+import { CompareProvider } from "./state/CompareContext";
+import FiltersBox from "../../components/filters/Filters";
 
 const MainPage = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [next, setNext] = useState<string>("");
   const [fetching, setFetching] = useState<Boolean>(false);
   const [loading, setLoading] = useState<Boolean>(false);
-  const [hasNext, setHasNext] = useState<Boolean>(true);
   const [searchParams] = useSearchParams();
-
-  useEffect(() => {
-    document.addEventListener("scroll", scrollHandler);
-
-    return function () {
-      document.removeEventListener("scroll", scrollHandler);
-    };
-  }, []);
 
   const scrollHandler = (e: Event) => {
     const target = e.target;
@@ -30,13 +23,18 @@ const MainPage = () => {
     if (
       target.documentElement.scrollHeight -
         (target.documentElement.scrollTop + window.innerHeight) <
-        100 &&
-      hasNext &&
-      movieList?.length !== 0
+      100
     ) {
       setFetching(true);
     }
   };
+
+  useEffect(() => {
+    document.addEventListener("scroll", scrollHandler);
+    return () => {
+      document.removeEventListener("scroll", scrollHandler);
+    };
+  }, []);
 
   const filtersFromUrl = useMemo(() => {
     return {
@@ -49,45 +47,51 @@ const MainPage = () => {
 
   useEffect(() => {
     setMovieList([]);
-  }, [searchParams]);
+    setNext("");
+    setFetching(true);
+  }, [filtersFromUrl]);
 
   useEffect(() => {
-    setMovieList(testData.docs);
-    // setLoading(true);
-    // getMoviesByFilters({
-    //   limit: 50,
-    //   next: next,
-    //   ...filtersFromUrl,
-    // })
-    //   .then(function (response) {
-    //     setMovieList([...movieList, ...response?.data?.docs]);
-    //     setNext(response.data.next);
-    //     setHasNext(response.data.next);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   })
-    //   .finally(() => {
-    //     setFetching(false);
-    //     setLoading(false);
-    //   });
-  }, [fetching, filtersFromUrl]);
+    if (!fetching) return;
+
+    setLoading(true);
+    getMoviesByFilters({
+      limit: 50,
+      next: next,
+      ...filtersFromUrl,
+    })
+      .then((response) => {
+        if (next === "") {
+          setMovieList(response?.data?.docs || []);
+        } else {
+          setMovieList((prev) => [...prev, ...(response?.data?.docs || [])]);
+        }
+        setNext(response.data.next);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setFetching(false);
+        setLoading(false);
+      });
+  }, [fetching, filtersFromUrl, next]);
 
   return (
     <>
-      <Header></Header>
-      <Grid
-        container
-        spacing={4}
-        justifyContent="center"
-        sx={{
-          padding: 3,
-        }}
-      >
-        <Filter />
-      </Grid>
-      <MovieList movieList={movieList} />
-      {loading ? <div>Загрузка...</div> : <></>}
+      <CompareProvider>
+        <Header></Header>
+        <Grid display={"flex"} gap={1} marginY={2} width={"100%"}>
+          <SidebarCompare />
+          <Box width={"100%"}>
+            <Grid container spacing={4} width={"100%"} justifyContent="center">
+              <FiltersBox />
+            </Grid>
+            <MovieList movieList={movieList} variant="main" />
+            {loading ? <div>Загрузка...</div> : <></>}
+          </Box>
+        </Grid>
+      </CompareProvider>
     </>
   );
 };

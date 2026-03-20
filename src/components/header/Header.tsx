@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SearchBar from "./searchHeader/SearchHeader";
 
 export default function Header() {
@@ -11,25 +11,36 @@ export default function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar color="primary" position="static">
-        <Toolbar>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ flexGrow: 1 }}
-            onClick={() => navigate("/")}
-          >
-            Кинопоиск
-          </Typography>
-          <SearchBar />
-          <Button color="inherit" onClick={() => navigate(-1)}>
-            ← Назад
-          </Button>
-          <Button color="inherit" onClick={() => navigate("/")}>
-            Главная
-          </Button>
-          <Button color="inherit" onClick={() => navigate("/likes")}>
-            Избранное
-          </Button>
+        <Toolbar
+          sx={{ flexGrow: 1, display: "flex", justifyContent: "space-between" }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{ flexGrow: 1, cursor: "pointer" }}
+              onClick={() => navigate("/")}
+            >
+              Кинопоиск
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <SearchBar />
+            <Button color="inherit" onClick={() => navigate(-1)}>
+              ← Назад
+            </Button>
+
+            <Link to="/">
+              <Button color="inherit" sx={{ color: "white" }}>
+                Главная
+              </Button>
+            </Link>
+            <Link to="/likes">
+              <Button color="inherit" sx={{ color: "white" }}>
+                Избранное
+              </Button>
+            </Link>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
