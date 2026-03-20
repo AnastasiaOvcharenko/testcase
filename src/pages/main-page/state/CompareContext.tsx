@@ -3,11 +3,11 @@ import type { Movie } from "../../../types/movies/movies";
 
 export const CompareContext = createContext<{
   movies: Movie[];
-  addMovie: (movie: Movie) => void;
+  addMovie: (movie?: Movie) => void;
   clearMovies: () => void;
 }>({
   movies: [],
-  addMovie: (movie) => {},
+  addMovie: () => {},
   clearMovies: () => {},
 });
 
@@ -18,7 +18,8 @@ interface Props {
 export const CompareProvider: React.FC<Props> = ({ children }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
 
-  const addMovie = (movie: Movie) => {
+  const addMovie = (movie?: Movie) => {
+    if (!movie) return;
     const newMovies = [...movies];
     if (movies.length >= 2) {
       newMovies.shift();
