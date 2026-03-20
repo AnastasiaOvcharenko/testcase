@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, Grid } from "@mui/material";
-import { testData } from "./testData";
+import { Box, CircularProgress, Grid } from "@mui/material";
+// import { testData } from "./testData";
 import { useSearchParams } from "react-router";
 import Header from "../../components/header/Header";
 import { getMoviesByFilters } from "../../api/movie-api/movieListApi";
@@ -88,7 +88,7 @@ const MainPage = () => {
               <FiltersBox />
             </Grid>
             <MovieList movieList={movieList} variant="main" />
-            {loading ? <div>Загрузка...</div> : <></>}
+            {loading ? <CircularProgress /> : <></>}
           </Box>
         </Grid>
       </CompareProvider>

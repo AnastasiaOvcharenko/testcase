@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import {
   Table,
   TableBody,
@@ -9,12 +9,11 @@ import {
   Paper,
   Typography,
   Box,
-  Avatar,
 } from "@mui/material";
 import { CompareContext } from "../../../pages/main-page/state/CompareContext";
 import { getLengthStr } from "../../../helpers/movie-helpers";
 import type { Genre, Movie } from "../../../types/movies/movies";
-import noImagePic from "../../../assets/no-image.png";
+// import noImagePic from "../../../assets/no-image.png";
 
 const ComparisonTable = () => {
   const { movies } = useContext(CompareContext);

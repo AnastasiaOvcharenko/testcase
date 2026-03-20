@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Drawer,
-  IconButton,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
 import CompareIcon from "@mui/icons-material/Compare";
 import { useContext, useEffect, useState } from "react";
 import { CompareContext } from "../../pages/main-page/state/CompareContext";

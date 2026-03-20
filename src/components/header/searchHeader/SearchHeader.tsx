@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TextField, Paper, List, Box, ClickAwayListener } from "@mui/material";
-import { testData } from "../../../pages/main-page/testData";
+// import { testData } from "../../../pages/main-page/testData";
 import type { Movie } from "../../../types/movies/movies";
 import { getMovieBySearch } from "../../../api/search-api/searchApi";
 import useDebounce from "../../../hooks/useDebounce";

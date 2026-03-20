@@ -1,8 +1,15 @@
 import { useParams } from "react-router";
-import { Box, Chip, Paper, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Paper,
+  Typography,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import noImagePic from "../../assets/no-image.png";
-import { testData } from "./testData";
+// import { testData } from "./testData";
 import Header from "../../components/header/Header";
 import type { MovieFullInfo } from "../../types/movies/movies";
 import { getMovieInfo } from "../../api/movie-api/movieInfoApi";
@@ -42,7 +49,7 @@ export function MoviePage() {
   }, [movieInfo]);
 
   if (isLoading) {
-    return <Typography>Загрузка...</Typography>;
+    return <CircularProgress />;
   }
 
   const handleOpenModal = () => {
