@@ -97,6 +97,7 @@ const ComparisonTable = () => {
       display={"flex"}
       flexDirection="column"
       alignItems="center"
+      justifyContent={"center"}
       overflow="auto"
     >
       <Box display="flex" justifyContent="center" mb={2} width="100%">
