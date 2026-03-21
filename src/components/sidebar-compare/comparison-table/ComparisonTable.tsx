@@ -109,7 +109,9 @@ const ComparisonTable: React.FC = () => {
     >
       {rows.map((row) => (
         <>
-          <Typography sx={{ gridColumn: 1, fontWeight: "bold" }}>
+          <Typography
+            sx={{ gridColumn: 1, fontWeight: "bold", textAlign: "center" }}
+          >
             {row.label}
           </Typography>
           {movies.map((movie, i) => (
