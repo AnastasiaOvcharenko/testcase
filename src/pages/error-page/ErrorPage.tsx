@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import Header from "../../components/header/Header";
 import { Box, Button, Typography } from "@mui/material";
-const ErrorPage = () => {
+const ErrorPage: React.FC = () => {
   const navigate = useNavigate();
   return (
     <>

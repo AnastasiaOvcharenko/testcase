@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import type { AxiosError, AxiosResponse } from "axios";
 import NothingFound from "../../shared/nothing-found/NothingFound";
 
-const MainPage = () => {
+const MainPage: React.FC = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [next, setNext] = useState<string>("");
   const [hasNext, setHasNext] = useState<boolean>(true);

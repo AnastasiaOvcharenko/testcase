@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-const NothingFound = () => {
+const NothingFound: React.FC = () => {
   return (
     <Box
       display={"flex"}

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router";
 import SearchBar from "./searchHeader/SearchHeader";
 import ToggleTheme from "../../shared/toggle-theme/ToggleTheme";
 
-export default function Header() {
+const Header: React.FC = () => {
   let navigate = useNavigate();
   return (
     <>
@@ -54,4 +54,6 @@ export default function Header() {
       <Box width={"100%"} height={"64px"}></Box>
     </>
   );
-}
+};
+
+export default Header;

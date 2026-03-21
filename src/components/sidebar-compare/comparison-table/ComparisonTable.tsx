@@ -14,7 +14,7 @@ import { CompareContext } from "../../../pages/main-page/state/CompareContext";
 import { getLengthStr } from "../../../helpers/movie-helpers";
 import type { Genre, Movie } from "../../../types/movies/movies";
 
-const ComparisonTable = () => {
+const ComparisonTable: React.FC = () => {
   const { movies } = useContext(CompareContext);
 
   const renderGenres = (genres: Genre[] | undefined) => {

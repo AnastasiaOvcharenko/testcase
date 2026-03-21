@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { CompareContext } from "../../pages/main-page/state/CompareContext";
 import ComparisonTable from "./comparison-table/ComparisonTable";
 
-const SidebarCompare = () => {
+const SidebarCompare: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sidebarWidth = isOpen ? "40vw" : "50px";
   const sidebarHeight = isOpen ? "calc(100vh - 16px - 64px - 16px)" : "50px";

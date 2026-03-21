@@ -13,7 +13,7 @@ import type { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import NothingFound from "../../shared/nothing-found/NothingFound";
 
-export function MoviePage() {
+export const MoviePage: React.FC = () => {
   let params = useParams();
   const [movieInfo, setMovieInfo] = useState<MovieFullInfo | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -230,6 +230,6 @@ export function MoviePage() {
       />
     </Box>
   );
-}
+};
 
 export default MoviePage;

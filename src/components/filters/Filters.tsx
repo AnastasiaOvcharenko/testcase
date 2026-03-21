@@ -36,7 +36,7 @@ const initFilters: Filters = {
   rating: [0, 10],
 };
 
-function FiltersBox() {
+const FiltersBox: React.FC = () => {
   const [filters, setFilters] = useState<Filters>(initFilters);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -280,6 +280,6 @@ function FiltersBox() {
       </Collapse>
     </Paper>
   );
-}
+};
 
 export default FiltersBox;

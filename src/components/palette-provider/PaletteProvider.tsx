@@ -1,4 +1,5 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import type React from "react";
 import type { PropsWithChildren } from "react";
 
 const theme = createTheme({
@@ -21,7 +22,7 @@ const theme = createTheme({
   },
 });
 
-const PaletteProvider = ({ children }: PropsWithChildren) => {
+const PaletteProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

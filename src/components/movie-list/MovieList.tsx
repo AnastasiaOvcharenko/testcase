@@ -7,7 +7,7 @@ interface MovieListProps {
   variant: "main" | "favorites";
 }
 
-const MovieList = ({ movieList, variant }: MovieListProps) => {
+const MovieList: React.FC<MovieListProps> = ({ movieList, variant }) => {
   return (
     <Grid
       container

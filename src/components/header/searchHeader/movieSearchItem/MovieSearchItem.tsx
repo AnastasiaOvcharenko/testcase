@@ -9,7 +9,7 @@ interface MovieSearchItemProps {
   movie: Movie;
 }
 
-export const MovieSearchItem = ({ movie }: MovieSearchItemProps) => {
+export const MovieSearchItem: React.FC<MovieSearchItemProps> = ({ movie }) => {
   const { id, name, alternativeName, rating, poster, year } = movie;
   const navigate = useNavigate();
   const location = useLocation();

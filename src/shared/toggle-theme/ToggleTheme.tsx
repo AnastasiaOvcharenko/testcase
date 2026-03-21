@@ -1,7 +1,7 @@
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { IconButton, useColorScheme } from "@mui/material";
 
-const ToggleTheme = () => {
+const ToggleTheme: React.FC = () => {
   const { mode, setMode } = useColorScheme();
 
   const handleToggle = () => {
