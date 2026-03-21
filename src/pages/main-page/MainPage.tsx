@@ -17,6 +17,7 @@ import NothingFound from "../../shared/nothing-found/NothingFound";
 const MainPage = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [next, setNext] = useState<string>("");
+  const [hasNext, setHasNext] = useState<boolean>(true);
   const [fetching, setFetching] = useState<Boolean>(false);
   const [loading, setLoading] = useState<Boolean>(false);
   const [searchParams] = useSearchParams();
@@ -27,8 +28,7 @@ const MainPage = () => {
     if (
       target.documentElement.scrollHeight -
         (target.documentElement.scrollTop + window.innerHeight) <
-        100 &&
-      next.length > 1
+      100
     ) {
       setFetching(true);
     }
@@ -53,11 +53,12 @@ const MainPage = () => {
   useEffect(() => {
     setMovieList([]);
     setNext("");
+    setHasNext(true);
     setFetching(true);
   }, [filtersFromUrl]);
 
   useEffect(() => {
-    if (!fetching) return;
+    if (!fetching || !hasNext) return;
     // setMovieList(testData.docs);
     setLoading(true);
     getMoviesByFilters({
@@ -72,6 +73,7 @@ const MainPage = () => {
           setMovieList((prev) => [...prev, ...(response?.data?.docs || [])]);
         }
         setNext(response.data.next);
+        setHasNext(response.data.hasNext);
       })
       .catch((error: AxiosError) => {
         toast.error(error.message);
