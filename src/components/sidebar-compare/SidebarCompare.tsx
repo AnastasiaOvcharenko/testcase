@@ -38,7 +38,12 @@ const SidebarCompare: React.FC = () => {
         borderRadius: 2,
       }}
     >
-      <Box width={"40vw"} height="100%">
+      <Box
+        width={"40vw"}
+        height="100%"
+        display={"flex"}
+        flexDirection={"column"}
+      >
         <Box
           display={"flex"}
           alignItems={"center"}

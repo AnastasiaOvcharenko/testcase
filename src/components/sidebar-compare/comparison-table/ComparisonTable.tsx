@@ -1,19 +1,9 @@
 import { useContext } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Paper,
-  Typography,
-  Box,
-  Avatar,
-  useTheme,
-} from "@mui/material";
+import { Typography, Box, Avatar, useTheme, Grid } from "@mui/material";
 import { CompareContext } from "../../../pages/main-page/state/CompareContext";
 import { getLengthStr } from "../../../helpers/movie-helpers";
 import type { Genre, Movie } from "../../../types/movies/movies";
+import noImagePic from "../../../assets/no-image.png";
 
 const ComparisonTable: React.FC = () => {
   const { movies } = useContext(CompareContext);
@@ -28,6 +18,10 @@ const ComparisonTable: React.FC = () => {
   };
 
   const rows = [
+    {
+      label: "Постер",
+      getValue: (movie: Movie) => renderMovieCell(movie),
+    },
     {
       label: "Название",
       getValue: (movie: Movie) => movie.name || movie.alternativeName || "-",
@@ -73,77 +67,61 @@ const ComparisonTable: React.FC = () => {
       width={"100%"}
     >
       <Avatar
-        src={movie.poster?.url}
+        src={movie.poster?.previewUrl || noImagePic}
         alt={movie.name}
-        sx={{ width: 80, height: 120, mb: 1, bgcolor: "#f0f0f0" }}
+        sx={{
+          width: 80,
+          height: 120,
+          mb: 1,
+          bgcolor: theme.palette.background.default,
+          ...(movie.poster?.previewUrl
+            ? {
+                "& img": {
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                },
+              }
+            : {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                "& img": {
+                  width: "40px",
+                  height: "40px",
+                  objectFit: "contain",
+                },
+              }),
+        }}
         variant="rounded"
       />
-      <Typography
-        variant="body2"
-        align="center"
-        noWrap
-        sx={{
-          lineHeight: 1.1,
-          wordWrap: "break-word",
-          whiteSpace: "normal",
-        }}
-      >
-        {movie.name || movie.alternativeName || "-"}
-      </Typography>
     </Box>
   );
 
   return (
-    <Box
-      height="100%"
-      display={"flex"}
-      flexDirection="column"
-      alignItems="center"
-      justifyContent={"center"}
-      overflow="auto"
+    <Grid
+      display={"grid"}
+      height={"100%"}
+      gridTemplateColumns={"1fr 1fr 1fr"}
+      gridTemplateRows={"repeat(5, auto)"}
+      alignItems={"center"}
+      padding={1}
     >
-      <Box display="flex" justifyContent="center" mb={2} width="100%">
-        {movies?.map((movie, index) => (
-          <Box
-            key={index}
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            width="150px"
-            mx={1}
-          >
-            {renderMovieCell(movie)}
-          </Box>
-        ))}
-      </Box>
-
-      <TableContainer
-        component={Paper}
-        sx={{ width: "100%", mx: "auto", boxShadow: "none" }}
-      >
-        <Table aria-label="comparison table">
-          <TableBody>
-            {rows.map((row, rowIndex) => (
-              <TableRow
-                key={rowIndex}
-                sx={{
-                  backgroundColor: theme.palette.background.paper,
-                }}
-              >
-                <TableCell sx={{ fontWeight: "bold", minWidth: 150 }}>
-                  {row.label}
-                </TableCell>
-                {movies.map((movie, index) => (
-                  <TableCell key={index} align="center">
-                    {row.getValue(movie)}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+      {rows.map((row) => (
+        <>
+          <Typography sx={{ gridColumn: 1, fontWeight: "bold" }}>
+            {row.label}
+          </Typography>
+          {movies.map((movie, i) => (
+            <>
+              <Typography textAlign={"center"} sx={{ gridColumn: i + 2 }}>
+                {row.getValue(movie)}
+              </Typography>
+            </>
+          ))}
+        </>
+      ))}
+    </Grid>
   );
 };
 
