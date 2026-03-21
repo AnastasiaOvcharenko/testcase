@@ -9,6 +9,7 @@ import {
   Typography,
   Box,
   Avatar,
+  useTheme,
 } from "@mui/material";
 import { CompareContext } from "../../../pages/main-page/state/CompareContext";
 import { getLengthStr } from "../../../helpers/movie-helpers";
@@ -16,6 +17,7 @@ import type { Genre, Movie } from "../../../types/movies/movies";
 
 const ComparisonTable: React.FC = () => {
   const { movies } = useContext(CompareContext);
+  const theme = useTheme();
 
   const renderGenres = (genres: Genre[] | undefined) => {
     if (!genres || genres.length === 0) return "-";
@@ -125,7 +127,7 @@ const ComparisonTable: React.FC = () => {
               <TableRow
                 key={rowIndex}
                 sx={{
-                  backgroundColor: rowIndex % 2 === 0 ? "#fafafa" : "white",
+                  backgroundColor: theme.palette.background.paper,
                 }}
               >
                 <TableCell sx={{ fontWeight: "bold", minWidth: 150 }}>
