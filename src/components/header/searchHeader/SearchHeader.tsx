@@ -5,10 +5,16 @@ import type { Movie } from "../../../types/movies/movies";
 import { getMovieBySearch } from "../../../api/search-api/searchApi";
 import useDebounce from "../../../hooks/useDebounce";
 import { MovieSearchItem } from "./movieSearchItem/MovieSearchItem";
+import { toast } from "react-toastify";
+import type { AxiosError, AxiosResponse } from "axios";
+import NothingFound from "../../../shared/nothing-found/NothingFound";
+import Loader from "../../../shared/loader/Loader";
 
 const SearchBar: React.FC = () => {
   const [input, setInput] = useState<string>("");
   const debouncedInput = useDebounce<string>(input);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [results, setResults] = useState<Movie[]>([]);
   const [showResults, setShowResults] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -20,12 +26,14 @@ const SearchBar: React.FC = () => {
       return;
     }
 
+    setShowResults(true);
+    setLoading(true);
     getMovieBySearch(debouncedInput)
-      .then((result) => {
+      .then((result: AxiosResponse) => {
         setResults(result?.data?.docs);
-        setShowResults(true);
       })
-      .catch((err) => console.log(err));
+      .catch((error: AxiosError) => toast.error(error.message))
+      .finally(() => setLoading(false));
   }, [debouncedInput]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,13 +59,9 @@ const SearchBar: React.FC = () => {
           borderRadius: 2,
           boxShadow: 1,
           width: "30vw",
-          "& fieldset": { borderColor: "gray" },
-        }}
-        InputProps={{
-          style: { paddingRight: 0 },
         }}
       />
-      {showResults && results.length > 0 && (
+      {showResults && (
         <ClickAwayListener onClickAway={handleClickAway}>
           <Paper
             sx={{
@@ -65,7 +69,7 @@ const SearchBar: React.FC = () => {
               top: "100%",
               left: 0,
               right: 0,
-              height: "60vh",
+              maxHeight: "60vh",
               overflowY: "auto",
               zIndex: 999,
               borderRadius: "0 0 8px 8px",
@@ -76,6 +80,8 @@ const SearchBar: React.FC = () => {
               {results.map((movie) => (
                 <MovieSearchItem movie={movie} key={movie.id} />
               ))}
+              {loading && <Loader />}
+              {!loading && results.length === 0 && <NothingFound />}
             </List>
           </Paper>
         </ClickAwayListener>

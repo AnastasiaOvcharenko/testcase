@@ -1,4 +1,11 @@
-import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import CompareIcon from "@mui/icons-material/Compare";
 import { useContext, useEffect, useState } from "react";
 import { CompareContext } from "../../pages/main-page/state/CompareContext";
@@ -6,7 +13,8 @@ import ComparisonTable from "./comparison-table/ComparisonTable";
 
 const SidebarCompare = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const SidebarWidth = isOpen ? "40vw" : "3vw";
+  const sidebarWidth = isOpen ? "40vw" : "50px";
+  const sidebarHeight = isOpen ? "calc(100vh - 16px)" : "50px";
   const { movies, clearMovies } = useContext(CompareContext);
 
   const handleToggleSidebar = () => {
@@ -20,14 +28,14 @@ const SidebarCompare = () => {
   return (
     <Paper
       sx={{
-        height: "100vh",
-        width: SidebarWidth,
+        height: sidebarHeight,
+        width: sidebarWidth,
         flexShrink: "0",
-        minWidth: "40px",
         transition: "ease 0.3s",
         position: "sticky",
-        top: "0",
+        top: "8px",
         overflow: "hidden",
+        borderRadius: 2,
       }}
     >
       <Box width={"40vw"} height="100%">
@@ -37,15 +45,31 @@ const SidebarCompare = () => {
           justifyContent={"space-between"}
         >
           <Box display={"flex"} alignItems={"center"} gap={1}>
-            <IconButton onClick={handleToggleSidebar} aria-label="open sidebar">
-              <CompareIcon />
-            </IconButton>
-            <Typography variant="body1">Режим сравнения</Typography>
+            <Tooltip title="Режим сравнения" placement="right" arrow>
+              <IconButton
+                onClick={handleToggleSidebar}
+                aria-label="open sidebar"
+                sx={{ width: "50px", height: "50px" }}
+              >
+                <CompareIcon sx={{ width: "30px", height: "30px" }} />
+              </IconButton>
+            </Tooltip>
+
+            <Typography
+              variant="body1"
+              sx={{
+                lineHeight: 1,
+                textTransform: "uppercase",
+                fontWeight: "bold",
+              }}
+            >
+              Режим сравнения
+            </Typography>
           </Box>
           <Button onClick={clearMovies}>Очистить</Button>
         </Box>
 
-        <Box visibility={isOpen ? "visible" : "hidden"} height={"100%"}>
+        <Box height={"100%"}>
           <ComparisonTable />
         </Box>
       </Box>

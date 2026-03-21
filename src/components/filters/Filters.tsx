@@ -16,10 +16,15 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { testData } from "./testData";
+// import { testData } from "./testData";
 import { encodeFilters, generateMarks } from "../../helpers/filters-helpers";
 import { useSearchParams } from "react-router";
 import type { Filters } from "../../types/filters/filters";
+import { getFilterValues } from "../../api/filters-api/filtersApi";
+import type { AxiosError, AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+import NothingFound from "../../shared/nothing-found/NothingFound";
+import Loader from "../../shared/loader/Loader";
 
 const currentYear = new Date().getFullYear();
 const yearMarks = generateMarks(1990, currentYear, 5);
@@ -37,9 +42,19 @@ function FiltersBox() {
 
   const [expanded, setExpanded] = useState<boolean>(true);
   const [genres, setGenres] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setGenres(testData.map((entry) => entry.name));
+    // setGenres(testData.map((entry) => entry.name));
+    setLoading(true);
+    getFilterValues()
+      .then((response: AxiosResponse) => {
+        setGenres(
+          response.data.map((entry: typeof response.data) => entry.name),
+        );
+      })
+      .catch((error: AxiosError) => toast.error(error.message))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -111,6 +126,7 @@ function FiltersBox() {
           alignItems: "center",
           p: 1,
           cursor: "pointer",
+          width: "100%",
         }}
         onClick={handleToggle}
       >
@@ -127,7 +143,15 @@ function FiltersBox() {
         </IconButton>
       </Box>
 
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse
+        in={expanded}
+        timeout="auto"
+        unmountOnExit
+        sx={{
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
         <Box
           display="flex"
           flexDirection="column"
@@ -135,40 +159,59 @@ function FiltersBox() {
           sx={{ px: 3, py: 3 }}
         >
           <Box display={"flex"} alignItems={"center"} gap={3}>
-            <Typography width={"10%"}>Жанры:</Typography>
-            <Box display={"flex"} alignItems={"center"} width={"100%"}>
-              <FormControl fullWidth>
-                <InputLabel htmlFor="genres-label">
-                  Выберите один или несколько...
-                </InputLabel>
+            <Typography width={"10%"} minWidth={"80px"}>
+              Жанры:
+            </Typography>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel htmlFor="genres-label">
+                Выберите один или несколько...
+              </InputLabel>
 
-                <Select
-                  labelId="genres-label"
-                  id="genres"
-                  label="Выберите один или несколько..."
-                  multiple
-                  value={filters.genres}
-                  onChange={handleSelectChange}
-                  displayEmpty
-                  renderValue={(selected) => selected.join(", ")}
-                >
-                  {genres.map((genre) => (
-                    <MenuItem key={genre} value={genre}>
-                      <Checkbox
-                        checked={
-                          filters?.genres && filters.genres.indexOf(genre) > -1
-                        }
-                      />
-                      <ListItemText primary={genre} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
+              <Select
+                labelId="genres-label"
+                id="genres"
+                label="Выберите один или несколько..."
+                multiple
+                value={filters.genres}
+                onChange={handleSelectChange}
+                renderValue={(selected) => (
+                  <Box
+                    sx={{
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {selected.join(", ")}
+                  </Box>
+                )}
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: "30vh",
+                      overflowY: "auto",
+                    },
+                  },
+                }}
+              >
+                {loading && <Loader />}
+                {!loading && genres.length === 0 && <NothingFound />}
+                {genres.map((genre) => (
+                  <MenuItem key={genre} value={genre}>
+                    <Checkbox
+                      checked={
+                        filters?.genres && filters.genres.indexOf(genre) > -1
+                      }
+                    />
+                    <ListItemText primary={genre} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
 
-          <Box display={"flex"} gap={3}>
-            <Typography width={"10%"} gutterBottom sx={{ flexShrink: 0 }}>
+          <Box display={"flex"} gap={3} alignItems={"center"}>
+            <Typography width={"10%"} minWidth={"80px"} sx={{ flexShrink: 0 }}>
               Год выпуска:
             </Typography>
             <Slider
@@ -183,8 +226,8 @@ function FiltersBox() {
             />
           </Box>
 
-          <Box display={"flex"} gap={3}>
-            <Typography width={"10%"} gutterBottom sx={{ flexShrink: 0 }}>
+          <Box display={"flex"} gap={3} alignItems={"center"}>
+            <Typography width={"10%"} minWidth={"80px"} sx={{ flexShrink: 0 }}>
               Рейтинг:
             </Typography>
             <Slider
@@ -193,7 +236,7 @@ function FiltersBox() {
               valueLabelDisplay="auto"
               min={0}
               max={10}
-              step={0.1}
+              step={1}
               sx={{ mb: 3 }}
               marks={ratingMarks}
             />
@@ -204,7 +247,6 @@ function FiltersBox() {
               variant="contained"
               onClick={handleFilterApply}
               sx={{
-                marginTop: 2,
                 fontSize: "1rem",
                 paddingX: 2,
                 paddingY: 1,
@@ -221,7 +263,6 @@ function FiltersBox() {
               variant="outlined"
               onClick={handleClearFilters}
               sx={{
-                marginTop: 2,
                 fontSize: "1rem",
                 paddingX: 2,
                 paddingY: 1,

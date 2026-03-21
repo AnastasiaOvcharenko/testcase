@@ -9,6 +9,9 @@ import { getMovieInfo } from "../../api/movie-api/movieInfoApi";
 import { getLengthStr } from "../../helpers/movie-helpers";
 import ConfirmModal from "./confirm-modal/confirmModal";
 import Loader from "../../shared/loader/Loader";
+import type { AxiosError, AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+import NothingFound from "../../shared/nothing-found/NothingFound";
 
 export function MoviePage() {
   let params = useParams();
@@ -20,11 +23,11 @@ export function MoviePage() {
   useEffect(() => {
     setIsLoading(true);
     getMovieInfo(params.movieId)
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         setMovieInfo(response.data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error: AxiosError) => {
+        toast.error(error.message);
       })
       .finally(() => {
         setIsLoading(false);
@@ -41,10 +44,6 @@ export function MoviePage() {
       setIsFavorite(exists);
     }
   }, [movieInfo]);
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -85,134 +84,142 @@ export function MoviePage() {
       <Paper
         sx={{
           padding: 4,
-          maxWidth: 800,
+          maxWidth: "70vw",
+          minHeight: "70vh",
           margin: "auto",
+          display: "flex",
           mt: 4,
           boxShadow: 3,
           borderRadius: 3,
           position: "relative",
         }}
       >
-        <Button
-          variant={isFavorite ? "outlined" : "contained"}
-          color={isFavorite ? "secondary" : "primary"}
-          onClick={handleOpenModal}
-          sx={{
-            position: "absolute",
-            top: 16,
-            right: 16,
-            textTransform: "none",
-            fontSize: "1rem",
-            paddingX: 2,
-            paddingY: 1,
-            borderRadius: 2,
-            boxShadow: 2,
-            "&:hover": {
-              boxShadow: 4,
-            },
-          }}
-        >
-          {isFavorite ? "Удалить из избранного" : "Добавить в избранное"}
-        </Button>
-
-        <Box
-          display="flex"
-          flexDirection={{ xs: "column", md: "row" }}
-          alignItems="center"
-          gap={3}
-        >
-          <Box
-            sx={{
-              flexShrink: 0,
-              width: { xs: "100%", md: 300 },
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Box
+        {movieInfo && (
+          <>
+            <Button
+              variant={isFavorite ? "outlined" : "contained"}
+              color={isFavorite ? "secondary" : "primary"}
+              onClick={handleOpenModal}
               sx={{
-                width: 300,
-                height: 450,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                position: "absolute",
+                top: 16,
+                right: 16,
+                textTransform: "none",
+                fontSize: "1rem",
+                paddingX: 2,
+                paddingY: 1,
                 borderRadius: 2,
                 boxShadow: 2,
-                backgroundColor: "#f0f0f0",
-                overflow: "hidden",
+                "&:hover": {
+                  boxShadow: 4,
+                },
               }}
             >
-              {movieInfo?.poster?.url ? (
-                <Box
-                  component="img"
-                  src={movieInfo?.poster.url}
-                  alt={`${movieInfo?.alternativeName} poster`}
-                  sx={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              ) : (
-                <Box
-                  component="img"
-                  src={noImagePic}
-                  alt="No poster available"
-                  sx={{
-                    maxWidth: "80%",
-                    maxHeight: "80%",
-                    objectFit: "contain",
-                  }}
-                />
-              )}
-            </Box>
-          </Box>
+              {isFavorite ? "Удалить из избранного" : "Добавить в избранное"}
+            </Button>
 
-          <Box sx={{ flex: 1 }}>
-            <Typography variant="h4" gutterBottom>
-              {movieInfo?.name || movieInfo?.alternativeName} ({movieInfo?.year}
-              )
-            </Typography>
-            {movieInfo?.description ? (
-              <Typography
-                variant="subtitle1"
-                gutterBottom
-                textAlign="left"
-                sx={{ lineHeight: "1.5" }}
+            <Box
+              display="flex"
+              flexDirection={{ xs: "column", md: "row" }}
+              alignItems="center"
+              gap={3}
+            >
+              <Box
+                sx={{
+                  flexShrink: 0,
+                  width: { xs: "100%", md: 300 },
+                  display: "flex",
+                  justifyContent: "center",
+                }}
               >
-                {movieInfo?.description}
-              </Typography>
-            ) : (
-              <></>
-            )}
-            <Box display="flex" alignItems="center" gap={2} mb={2}>
-              {movieInfo?.rating?.imdb ? (
-                <Typography variant="body1">
-                  Рейтинг: {movieInfo?.rating.imdb}
+                <Box
+                  sx={{
+                    width: 300,
+                    height: 450,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 2,
+                    boxShadow: 2,
+                    backgroundColor: "#f0f0f0",
+                    overflow: "hidden",
+                  }}
+                >
+                  {movieInfo?.poster?.url ? (
+                    <Box
+                      component="img"
+                      src={movieInfo?.poster.url}
+                      alt={`${movieInfo?.alternativeName} poster`}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <Box
+                      component="img"
+                      src={noImagePic}
+                      alt="No poster available"
+                      sx={{
+                        maxWidth: "80%",
+                        maxHeight: "80%",
+                        objectFit: "contain",
+                      }}
+                    />
+                  )}
+                </Box>
+              </Box>
+
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="h4" gutterBottom>
+                  {movieInfo?.name || movieInfo?.alternativeName}{" "}
+                  {movieInfo?.year && `(${movieInfo.year})`}
                 </Typography>
-              ) : (
-                <></>
-              )}
-              {movieInfo?.movieLength ? (
-                <Typography variant="body1">
-                  Длительность: {getLengthStr(movieInfo)}
-                </Typography>
-              ) : (
-                <></>
-              )}
+                {movieInfo?.description ? (
+                  <Typography
+                    variant="subtitle1"
+                    gutterBottom
+                    textAlign="left"
+                    sx={{ lineHeight: "1.5" }}
+                  >
+                    {movieInfo?.description}
+                  </Typography>
+                ) : (
+                  <></>
+                )}
+                <Box display="flex" alignItems="center" gap={2} mb={2}>
+                  {movieInfo?.rating?.imdb ? (
+                    <Typography variant="body1">
+                      Рейтинг: {movieInfo?.rating.imdb}
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                  {movieInfo?.movieLength ? (
+                    <Typography variant="body1">
+                      Длительность: {getLengthStr(movieInfo)}
+                    </Typography>
+                  ) : (
+                    <></>
+                  )}
+                </Box>
+                <Box display="flex" flexWrap="wrap" gap={1}>
+                  {movieInfo?.genres?.map((genre) => (
+                    <Chip
+                      key={genre.name}
+                      label={genre.name}
+                      color="primary"
+                      variant="outlined"
+                    />
+                  ))}
+                </Box>
+              </Box>
             </Box>
-            <Box display="flex" flexWrap="wrap" gap={1}>
-              {movieInfo?.genres?.map((genre) => (
-                <Chip
-                  key={genre.name}
-                  label={genre.name}
-                  color="primary"
-                  variant="outlined"
-                />
-              ))}
-            </Box>
-          </Box>
-        </Box>
+          </>
+        )}
+        {isLoading && <Loader />}
+        {!isLoading && !movieInfo && <NothingFound />}
       </Paper>
       <ConfirmModal
         isFavorite={isFavorite}

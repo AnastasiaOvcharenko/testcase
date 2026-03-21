@@ -81,7 +81,6 @@ const ComparisonTable = () => {
         align="center"
         noWrap
         sx={{
-          // maxWidth: 100,
           lineHeight: 1.1,
           wordWrap: "break-word",
           whiteSpace: "normal",
@@ -117,7 +116,7 @@ const ComparisonTable = () => {
 
       <TableContainer
         component={Paper}
-        sx={{ width: "100%", maxWidth: 800, mx: "auto", boxShadow: "none" }}
+        sx={{ width: "100%", mx: "auto", boxShadow: "none" }}
       >
         <Table aria-label="comparison table">
           <TableBody>

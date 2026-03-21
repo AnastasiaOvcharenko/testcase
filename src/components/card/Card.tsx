@@ -30,6 +30,7 @@ export function MovieCard({ movie, variant }: MovieCardProps) {
             minWidth: "200px",
             width: "17vw",
             height: "65vh",
+            maxHeight: "600px",
             display: "flex",
             flexDirection: "column",
             cursor: "pointer",

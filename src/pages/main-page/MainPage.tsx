@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 // import { testData } from "./testData";
 import { useSearchParams } from "react-router";
 import Header from "../../components/header/Header";
@@ -10,6 +10,9 @@ import SidebarCompare from "../../components/sidebar-compare/SidebarCompare";
 import { CompareProvider } from "./state/CompareContext";
 import FiltersBox from "../../components/filters/Filters";
 import Loader from "../../shared/loader/Loader";
+import { toast } from "react-toastify";
+import type { AxiosError, AxiosResponse } from "axios";
+import NothingFound from "../../shared/nothing-found/NothingFound";
 
 const MainPage = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
@@ -24,7 +27,8 @@ const MainPage = () => {
     if (
       target.documentElement.scrollHeight -
         (target.documentElement.scrollTop + window.innerHeight) <
-      100
+        100 &&
+      next.length > 1
     ) {
       setFetching(true);
     }
@@ -40,9 +44,9 @@ const MainPage = () => {
   const filtersFromUrl = useMemo(() => {
     return {
       "genres.name": searchParams.getAll("genres")?.join(", ") || undefined,
-      year: searchParams.getAll("year")[0]?.split(",").join("-") || undefined,
+      year: searchParams.get("year")?.split(",").join("-") || undefined,
       "rating.imdb":
-        searchParams.getAll("rating")[0]?.split(",").join("-") || undefined,
+        searchParams.get("rating")?.split(",").join("-") || undefined,
     };
   }, [searchParams]);
 
@@ -61,7 +65,7 @@ const MainPage = () => {
       next: next,
       ...filtersFromUrl,
     })
-      .then((response) => {
+      .then((response: AxiosResponse) => {
         if (next === "") {
           setMovieList(response?.data?.docs || []);
         } else {
@@ -69,8 +73,8 @@ const MainPage = () => {
         }
         setNext(response.data.next);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error: AxiosError) => {
+        toast.error(error.message);
       })
       .finally(() => {
         setFetching(false);
@@ -82,16 +86,20 @@ const MainPage = () => {
     <>
       <CompareProvider>
         <Header></Header>
-        <Grid display={"flex"} gap={1} marginY={2} width={"100%"}>
+        <Box display={"flex"} gap={1} paddingY={2} paddingX={1}>
           <SidebarCompare />
-          <Box width={"100%"}>
-            <Grid container spacing={4} justifyContent="center">
-              <FiltersBox />
-            </Grid>
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            overflow={"hidden"}
+            flexGrow={1}
+          >
+            <FiltersBox />
             <MovieList movieList={movieList} variant="main" />
             {loading && <Loader />}
+            {!loading && movieList.length === 0 && <NothingFound />}
           </Box>
-        </Grid>
+        </Box>
       </CompareProvider>
     </>
   );
