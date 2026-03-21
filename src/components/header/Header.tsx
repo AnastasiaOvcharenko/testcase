@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router";
 import SearchBar from "./searchHeader/SearchHeader";
+import ToggleTheme from "../../shared/toggle-theme/ToggleTheme";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -45,6 +46,7 @@ export default function Header() {
                   Избранное
                 </Button>
               </Link>
+              <ToggleTheme />
             </Box>
           </Toolbar>
         </AppBar>

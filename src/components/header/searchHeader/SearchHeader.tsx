@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { TextField, Paper, List, Box, ClickAwayListener } from "@mui/material";
+import {
+  TextField,
+  Paper,
+  List,
+  Box,
+  ClickAwayListener,
+  useTheme,
+} from "@mui/material";
 // import { testData } from "../../../pages/main-page/testData";
 import type { Movie } from "../../../types/movies/movies";
 import { getMovieBySearch } from "../../../api/search-api/searchApi";
@@ -11,6 +18,8 @@ import NothingFound from "../../../shared/nothing-found/NothingFound";
 import Loader from "../../../shared/loader/Loader";
 
 const SearchBar: React.FC = () => {
+  const theme = useTheme();
+
   const [input, setInput] = useState<string>("");
   const debouncedInput = useDebounce<string>(input);
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,9 +64,8 @@ const SearchBar: React.FC = () => {
         value={input}
         onChange={handleChange}
         sx={{
-          backgroundColor: "white",
+          backgroundColor: theme.palette.background.paper,
           borderRadius: 2,
-          boxShadow: 1,
           width: "30vw",
         }}
       />
