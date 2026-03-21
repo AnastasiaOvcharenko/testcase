@@ -70,8 +70,8 @@ const ComparisonTable: React.FC = () => {
         src={movie.poster?.previewUrl || noImagePic}
         alt={movie.name}
         sx={{
-          width: 80,
-          height: 120,
+          width: 60,
+          height: 90,
           mb: 1,
           bgcolor: theme.palette.background.default,
           ...(movie.poster?.previewUrl
@@ -102,6 +102,7 @@ const ComparisonTable: React.FC = () => {
     <Grid
       display={"grid"}
       height={"100%"}
+      gap={1}
       gridTemplateColumns={"1fr 1fr 1fr"}
       gridTemplateRows={"repeat(5, auto)"}
       alignItems={"center"}

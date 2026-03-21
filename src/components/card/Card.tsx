@@ -99,6 +99,10 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, variant }) => {
               variant="contained"
               color="primary"
               size="small"
+              sx={{
+                borderTopRightRadius: 0,
+                borderBottomLeftRadius: 0,
+              }}
             >
               Сравнить
             </Button>
