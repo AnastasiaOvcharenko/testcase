@@ -5,6 +5,7 @@ import {
   Typography,
   Box,
   Button,
+  CardActionArea,
 } from "@mui/material";
 import noImagePic from "../../assets/no-image.png";
 import type { Movie } from "../../types/movies/movies";
@@ -23,8 +24,16 @@ export function MovieCard({ movie, variant }: MovieCardProps) {
   const navigate = useNavigate();
 
   return (
-    <div style={{ position: "relative" }}>
-      <div onClick={() => navigate(`/movie/${movie.id}`)}>
+    <Box>
+      <CardActionArea
+        onClick={() => navigate(`/movie/${movie.id}`)}
+        sx={{
+          transition: "transform 0.2s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+          },
+        }}
+      >
         <Card
           sx={{
             minWidth: "200px",
@@ -35,10 +44,6 @@ export function MovieCard({ movie, variant }: MovieCardProps) {
             display: "flex",
             flexDirection: "column",
             cursor: "pointer",
-            transition: "transform 0.2s ease",
-            "&:hover": {
-              transform: "scale(1.05)",
-            },
           }}
         >
           <CardMedia
@@ -106,7 +111,7 @@ export function MovieCard({ movie, variant }: MovieCardProps) {
             )}
           </Box>
         </Card>
-      </div>
-    </div>
+      </CardActionArea>
+    </Box>
   );
 }

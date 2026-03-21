@@ -7,7 +7,7 @@ import Header from "../../components/header/Header";
 import type { MovieFullInfo } from "../../types/movies/movies";
 import { getMovieInfo } from "../../api/movie-api/movieInfoApi";
 import { getLengthStr } from "../../helpers/movie-helpers";
-import ConfirmModal from "./confirm-modal/confirmModal";
+import ConfirmModal from "../../components/confirm-modal/confirmModal";
 import Loader from "../../shared/loader/Loader";
 import type { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";

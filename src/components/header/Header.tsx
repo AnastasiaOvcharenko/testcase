@@ -9,40 +9,47 @@ import SearchBar from "./searchHeader/SearchHeader";
 export default function Header() {
   let navigate = useNavigate();
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar color="primary" position="static">
-        <Toolbar
-          sx={{ flexGrow: 1, display: "flex", justifyContent: "space-between" }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{ flexGrow: 1, cursor: "pointer" }}
-              onClick={() => navigate("/")}
-            >
-              Кинопоиск
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <SearchBar />
-            <Button color="inherit" onClick={() => navigate(-1)}>
-              ← Назад
-            </Button>
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar color="primary" position="fixed">
+          <Toolbar
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{ flexGrow: 1, cursor: "pointer" }}
+                onClick={() => navigate("/")}
+              >
+                Кинопоиск
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <SearchBar />
+              <Button color="inherit" onClick={() => navigate(-1)}>
+                ← Назад
+              </Button>
 
-            <Link to="/">
-              <Button color="inherit" sx={{ color: "white" }}>
-                Главная
-              </Button>
-            </Link>
-            <Link to="/likes">
-              <Button color="inherit" sx={{ color: "white" }}>
-                Избранное
-              </Button>
-            </Link>
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </Box>
+              <Link to="/">
+                <Button color="inherit" sx={{ color: "white" }}>
+                  Главная
+                </Button>
+              </Link>
+              <Link to="/likes">
+                <Button color="inherit" sx={{ color: "white" }}>
+                  Избранное
+                </Button>
+              </Link>
+            </Box>
+          </Toolbar>
+        </AppBar>
+      </Box>
+      <Box width={"100%"} height={"64px"}></Box>
+    </>
   );
 }

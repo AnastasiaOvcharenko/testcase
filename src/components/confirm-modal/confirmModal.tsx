@@ -24,7 +24,13 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isFavorite,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      slots={{
+        transition: React.Fragment,
+      }}
+    >
       <DialogTitle>
         <Typography variant="h5">Подтвердите действие</Typography>
       </DialogTitle>

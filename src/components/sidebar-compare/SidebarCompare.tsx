@@ -14,7 +14,7 @@ import ComparisonTable from "./comparison-table/ComparisonTable";
 const SidebarCompare = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sidebarWidth = isOpen ? "40vw" : "50px";
-  const sidebarHeight = isOpen ? "calc(100vh - 16px)" : "50px";
+  const sidebarHeight = isOpen ? "calc(100vh - 16px - 64px - 16px)" : "50px";
   const { movies, clearMovies } = useContext(CompareContext);
 
   const handleToggleSidebar = () => {
@@ -33,7 +33,7 @@ const SidebarCompare = () => {
         flexShrink: "0",
         transition: "ease 0.3s",
         position: "sticky",
-        top: "8px",
+        top: "calc(64px + 16px)",
         overflow: "hidden",
         borderRadius: 2,
       }}
