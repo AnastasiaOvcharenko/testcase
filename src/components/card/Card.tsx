@@ -5,7 +5,6 @@ import {
   Typography,
   Box,
   Button,
-  CardActionArea,
 } from "@mui/material";
 import noImagePic from "../../assets/no-image.png";
 import type { Movie } from "../../types/movies/movies";
