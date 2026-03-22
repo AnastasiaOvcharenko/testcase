@@ -1,4 +1,3 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Box,
   Button,
@@ -15,99 +14,36 @@ import {
   Slider,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-
-import { useSearchParams } from "react-router";
-import { toast } from "react-toastify";
-
-import { getFilterValues } from "../../api/filters-api/filtersApi";
-import { encodeFilters, generateMarks } from "../../helpers/filters-helpers";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useFilters } from "../../hooks/useFilters";
+import { useState } from "react";
+import { generateMarks } from "../../helpers/filters-helpers";
 import Loader from "../../shared/loader/Loader";
 import NothingFound from "../../shared/nothing-found/NothingFound";
-
-import type { Filters } from "../../types/filters";
-import type { AxiosResponse } from "axios";
 
 const currentYear = new Date().getFullYear();
 const yearMarks = generateMarks(1990, currentYear, 5);
 const ratingMarks = generateMarks(0, 10, 1);
 
-const initFilters: Filters = {
-  genres: [],
-  year: [1990, currentYear],
-  rating: [0, 10],
-};
-
 const FiltersBox: React.FC = () => {
-  const [filters, setFilters] = useState<Filters>(initFilters);
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const [expanded, setExpanded] = useState<boolean>(true);
-  const [genres, setGenres] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    setLoading(true);
-    getFilterValues()
-      .then((response: AxiosResponse) => {
-        setGenres(
-          response.data.map((entry: typeof response.data) => entry.name),
-        );
-      })
-      .catch(() => toast.error("Произошла ошибка при загрузке фильтров"))
-      .finally(() => setLoading(false));
-  }, []);
-
-  useEffect(() => {
-    const genresParam = searchParams.get("genres");
-    const yearParam = searchParams.get("year");
-    const ratingParam = searchParams.get("rating");
-
-    setFilters({
-      genres: genresParam?.split(",") || [],
-      year: yearParam?.split(",").map(Number) || [1990, currentYear],
-      rating: ratingParam?.split(",").map(Number) || [0, 10],
-    });
-  }, [searchParams]);
-
-  const updateUrl = (newFilters: typeof initFilters) => {
-    const params = new URLSearchParams();
-    encodeFilters(newFilters, params);
-    setSearchParams(params);
-  };
-
-  const handleToggle = () => {
-    setExpanded((prev) => !prev);
-  };
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const handleFiltersChange = (key: keyof typeof filters, value: any) => {
-    setFilters((prev) => {
-      const updated = { ...prev, [key]: value };
-      return updated;
-    });
-  };
-
-  const handleFilterApply = () => {
-    updateUrl(filters);
-  };
-
-  const handleClearFilters = () => {
-    setFilters(initFilters);
-    updateUrl(initFilters);
-  };
+  const {
+    filters,
+    genres,
+    genresLoading,
+    handleFiltersChange,
+    handleFilterApply,
+    handleClearFilters,
+  } = useFilters();
 
   const handleSelectChange = (
     event: SelectChangeEvent<typeof filters.genres>,
   ) => {
-    const value = event.target.value as string[];
-    handleFiltersChange("genres", value);
+    handleFiltersChange("genres", event.target.value as string[]);
   };
 
-  const handleSliderChange = (
-    key: keyof typeof filters,
-    value: number | number[],
-  ) => {
+  const handleSliderChange = (key: keyof typeof filters, value: number[]) => {
     handleFiltersChange(key, value);
   };
 
@@ -130,7 +66,7 @@ const FiltersBox: React.FC = () => {
           cursor: "pointer",
           width: "100%",
         }}
-        onClick={handleToggle}
+        onClick={() => setExpanded((prev) => !prev)}
       >
         <Typography variant="h6" component="div">
           Фильтры
@@ -145,15 +81,7 @@ const FiltersBox: React.FC = () => {
         </IconButton>
       </Box>
 
-      <Collapse
-        in={expanded}
-        timeout="auto"
-        unmountOnExit
-        sx={{
-          width: "100%",
-          overflow: "hidden",
-        }}
-      >
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
         <Box
           display="flex"
           flexDirection="column"
@@ -168,7 +96,6 @@ const FiltersBox: React.FC = () => {
               <InputLabel htmlFor="genres-label">
                 Выберите один или несколько...
               </InputLabel>
-
               <Select
                 labelId="genres-label"
                 id="genres"
@@ -189,20 +116,17 @@ const FiltersBox: React.FC = () => {
                 )}
                 MenuProps={{
                   PaperProps: {
-                    style: {
-                      maxHeight: "30vh",
-                      overflowY: "auto",
-                    },
+                    style: { maxHeight: "30vh", overflowY: "auto" },
                   },
                 }}
               >
-                {loading && <Loader />}
-                {!loading && genres.length === 0 && <NothingFound />}
+                {genresLoading && <Loader />}
+                {!genresLoading && genres.length === 0 && <NothingFound />}
                 {genres.map((genre) => (
                   <MenuItem key={genre} value={genre}>
                     <Checkbox
                       checked={
-                        filters?.genres && filters.genres.indexOf(genre) > -1
+                        filters?.genres && filters?.genres?.indexOf(genre) > -1
                       }
                     />
                     <ListItemText primary={genre} />
@@ -254,9 +178,6 @@ const FiltersBox: React.FC = () => {
                 paddingY: 1,
                 borderRadius: 2,
                 boxShadow: 2,
-                "&:hover": {
-                  boxShadow: 4,
-                },
               }}
             >
               Применить фильтры
@@ -270,9 +191,6 @@ const FiltersBox: React.FC = () => {
                 paddingY: 1,
                 borderRadius: 2,
                 boxShadow: 2,
-                "&:hover": {
-                  boxShadow: 4,
-                },
               }}
             >
               Очистить фильтры
