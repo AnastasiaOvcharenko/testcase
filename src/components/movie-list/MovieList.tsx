@@ -20,7 +20,7 @@ const MovieList: React.FC<MovieListProps> = ({ movieList, variant }) => {
       }}
     >
       {movieList.map((movie) => {
-        return <MovieCard variant={variant} movie={movie} />;
+        return <MovieCard key={movie.id} variant={variant} movie={movie} />;
       })}
     </Grid>
   );

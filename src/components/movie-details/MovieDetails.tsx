@@ -1,4 +1,4 @@
-import { Box, Typography, Chip } from "@mui/material";
+import { Box, Typography, Chip, useTheme } from "@mui/material";
 import noImagePic from "../../assets/no-image.png";
 import { getLengthStr } from "../../helpers/movie-helpers";
 import type { MovieFullInfo } from "../../types/movies";
@@ -8,6 +8,7 @@ interface MovieDetailsProps {
 }
 
 export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieInfo }) => {
+  const theme = useTheme();
   return (
     <Box
       display="flex"
@@ -32,7 +33,7 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieInfo }) => {
             justifyContent: "center",
             borderRadius: 2,
             boxShadow: 2,
-            backgroundColor: "#f0f0f0",
+            backgroundColor: theme.palette.background.default,
             overflow: "hidden",
           }}
         >
@@ -80,15 +81,19 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({ movieInfo }) => {
         )}
 
         <Box display="flex" alignItems="center" gap={2} mb={2}>
-          {movieInfo?.rating?.imdb && (
+          {movieInfo?.rating?.imdb ? (
             <Typography variant="body1">
               Рейтинг: {movieInfo.rating.imdb}
             </Typography>
+          ) : (
+            <></>
           )}
-          {movieInfo?.movieLength && (
+          {movieInfo?.movieLength ? (
             <Typography variant="body1">
               Длительность: {getLengthStr(movieInfo)}
             </Typography>
+          ) : (
+            <></>
           )}
         </Box>
 
