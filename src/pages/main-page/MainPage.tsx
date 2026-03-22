@@ -14,7 +14,7 @@ import NothingFound from "../../shared/nothing-found/NothingFound";
 import { CompareProvider } from "./state/CompareProvider";
 
 import type { Movie } from "../../types/movies/movies";
-import type { AxiosError, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 const MainPage: React.FC = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
@@ -77,8 +77,8 @@ const MainPage: React.FC = () => {
         setNext(response.data.next);
         setHasNext(response.data.hasNext);
       })
-      .catch((error: AxiosError) => {
-        toast.error(error.message);
+      .catch(() => {
+        toast.error("Произошла ошибка при загрузке фильмов");
       })
       .finally(() => {
         setFetching(false);

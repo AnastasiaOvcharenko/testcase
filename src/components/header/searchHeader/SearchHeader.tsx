@@ -18,7 +18,7 @@ import NothingFound from "../../../shared/nothing-found/NothingFound";
 import { MovieSearchItem } from "./movieSearchItem/MovieSearchItem";
 
 import type { Movie } from "../../../types/movies/movies";
-import type { AxiosError, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 const SearchBar: React.FC = () => {
   const theme = useTheme();
@@ -44,7 +44,7 @@ const SearchBar: React.FC = () => {
       .then((result: AxiosResponse) => {
         setResults(result?.data?.docs);
       })
-      .catch((error: AxiosError) => toast.error(error.message))
+      .catch(() => toast.error("Произошла ошибка при загрузке поиска фильмов"))
       .finally(() => setLoading(false));
   }, [debouncedInput]);
 

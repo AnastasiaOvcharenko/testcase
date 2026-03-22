@@ -12,7 +12,7 @@ import Loader from "../../shared/loader/Loader";
 import NothingFound from "../../shared/nothing-found/NothingFound";
 
 import type { MovieFullInfo } from "../../types/movies/movies";
-import type { AxiosError, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 
 export const MoviePage: React.FC = () => {
   const params = useParams();
@@ -27,8 +27,8 @@ export const MoviePage: React.FC = () => {
       .then((response: AxiosResponse) => {
         setMovieInfo(response.data);
       })
-      .catch((error: AxiosError) => {
-        toast.error(error.message);
+      .catch(() => {
+        toast.error("Произошла ошибка при загрузке фильма");
       })
       .finally(() => {
         setIsLoading(false);
@@ -172,7 +172,7 @@ export const MoviePage: React.FC = () => {
                 </Box>
               </Box>
 
-              <Box sx={{ flex: 1 }}>
+              <Box sx={{ flex: 1, padding: "56px 0" }}>
                 <Typography variant="h4" gutterBottom>
                   {movieInfo?.name || movieInfo?.alternativeName}{" "}
                   {movieInfo?.year && `(${movieInfo.year})`}

@@ -26,9 +26,7 @@ import Loader from "../../shared/loader/Loader";
 import NothingFound from "../../shared/nothing-found/NothingFound";
 
 import type { Filters } from "../../types/filters/filters";
-import type { AxiosError, AxiosResponse } from "axios";
-
-
+import type { AxiosResponse } from "axios";
 
 const currentYear = new Date().getFullYear();
 const yearMarks = generateMarks(1990, currentYear, 5);
@@ -56,7 +54,7 @@ const FiltersBox: React.FC = () => {
           response.data.map((entry: typeof response.data) => entry.name),
         );
       })
-      .catch((error: AxiosError) => toast.error(error.message))
+      .catch(() => toast.error("Произошла ошибка при загрузке фильтров"))
       .finally(() => setLoading(false));
   }, []);
 
