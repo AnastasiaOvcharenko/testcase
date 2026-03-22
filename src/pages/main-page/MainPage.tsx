@@ -7,7 +7,7 @@ import { getMoviesByFilters } from "../../api/movie-api/movieListApi";
 import type { Movie } from "../../types/movies/movies";
 import MovieList from "../../components/movie-list/MovieList";
 import SidebarCompare from "../../components/sidebar-compare/SidebarCompare";
-import { CompareProvider } from "./state/CompareContext";
+import { CompareProvider } from "./state/CompareProvider";
 import FiltersBox from "../../components/filters/Filters";
 import Loader from "../../shared/loader/Loader";
 import { toast } from "react-toastify";
@@ -18,8 +18,8 @@ const MainPage: React.FC = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [next, setNext] = useState<string>("");
   const [hasNext, setHasNext] = useState<boolean>(true);
-  const [fetching, setFetching] = useState<Boolean>(false);
-  const [loading, setLoading] = useState<Boolean>(false);
+  const [fetching, setFetching] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
 
   const scrollHandler = (e: Event) => {
@@ -82,7 +82,7 @@ const MainPage: React.FC = () => {
         setFetching(false);
         setLoading(false);
       });
-  }, [fetching, filtersFromUrl, next]);
+  }, [fetching, filtersFromUrl, next, hasNext]);
 
   return (
     <>

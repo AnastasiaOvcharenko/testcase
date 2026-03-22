@@ -8,7 +8,7 @@ import SearchBar from "./searchHeader/SearchHeader";
 import ToggleTheme from "../../shared/toggle-theme/ToggleTheme";
 
 const Header: React.FC = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>

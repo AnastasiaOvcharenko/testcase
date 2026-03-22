@@ -1,4 +1,4 @@
-import { Avatar, Box, Paper, Typography, Button } from "@mui/material";
+import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
 import { getColorByRating } from "../../../../helpers/search-helpers";
 import { useLocation, useNavigate } from "react-router";
 import type { Movie } from "../../../../types/movies/movies";

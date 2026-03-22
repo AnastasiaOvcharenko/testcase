@@ -14,6 +14,7 @@ export const generateMarks = (
 
 export const encodeFilters = (
   filters: Filters,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   params: Record<string, any>,
 ): string => {
   if (filters.genres && filters.genres.length > 0) {

@@ -2,6 +2,7 @@ import axios, { type AxiosPromise } from "axios";
 
 export const getApiCall = async function (
   url: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   params?: Record<string, any>,
 ): AxiosPromise {
   const mode = import.meta.env.VITE_MODE;

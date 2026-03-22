@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import {
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Button,
   Checkbox,
+  Collapse,
+  FormControl,
+  IconButton,
+  InputLabel,
   ListItemText,
+  MenuItem,
+  Paper,
+  Select,
+  type SelectChangeEvent,
   Slider,
   Typography,
-  IconButton,
-  Collapse,
-  Button,
-  Paper,
-  type SelectChangeEvent,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // import { testData } from "./testData";
@@ -79,6 +79,7 @@ const FiltersBox: React.FC = () => {
     setExpanded((prev) => !prev);
   };
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const handleFiltersChange = (key: keyof typeof filters, value: any) => {
     setFilters((prev) => {
       const updated = { ...prev, [key]: value };

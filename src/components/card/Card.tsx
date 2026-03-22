@@ -1,10 +1,10 @@
 import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
   Box,
   Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
 } from "@mui/material";
 import noImagePic from "../../assets/no-image.png";
 import type { Movie } from "../../types/movies/movies";

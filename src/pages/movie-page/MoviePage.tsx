@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { Box, Chip, Paper, Typography, Button } from "@mui/material";
+import { Box, Button, Chip, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import noImagePic from "../../assets/no-image.png";
 // import { testData } from "./testData";
@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import NothingFound from "../../shared/nothing-found/NothingFound";
 
 export const MoviePage: React.FC = () => {
-  let params = useParams();
+  const params = useParams();
   const [movieInfo, setMovieInfo] = useState<MovieFullInfo | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalOpen, setModalOpen] = useState(false);

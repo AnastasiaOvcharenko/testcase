@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Typography, Box, Avatar, useTheme, Grid } from "@mui/material";
+import { Avatar, Box, Grid, Typography, useTheme } from "@mui/material";
 import { CompareContext } from "../../../pages/main-page/state/CompareContext";
 import { getLengthStr } from "../../../helpers/movie-helpers";
 import type { Genre, Movie } from "../../../types/movies/movies";
