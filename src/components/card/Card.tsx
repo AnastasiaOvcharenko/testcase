@@ -13,8 +13,7 @@ import noImagePic from "../../assets/no-image.png";
 import { getColorByRating } from "../../helpers/search-helpers";
 import { CompareContext } from "../../pages/main-page/state/CompareContext";
 
-import type { Movie } from "../../types/movies/movies";
-
+import type { Movie } from "../../types/movies";
 
 interface MovieCardProps {
   movie: Movie;

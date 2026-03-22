@@ -2,7 +2,7 @@ import { type ReactNode, useState } from "react";
 
 import { CompareContext } from "./CompareContext";
 
-import type { Movie } from "../../../types/movies/movies";
+import type { Movie } from "../../../types/movies";
 
 interface Props {
   children: ReactNode;

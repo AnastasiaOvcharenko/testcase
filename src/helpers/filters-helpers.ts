@@ -1,4 +1,4 @@
-import type { Filters } from "../types/filters/filters";
+import type { Filters } from "../types/filters";
 
 export const generateMarks = (
   startYear: number,

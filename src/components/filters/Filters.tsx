@@ -25,7 +25,7 @@ import { encodeFilters, generateMarks } from "../../helpers/filters-helpers";
 import Loader from "../../shared/loader/Loader";
 import NothingFound from "../../shared/nothing-found/NothingFound";
 
-import type { Filters } from "../../types/filters/filters";
+import type { Filters } from "../../types/filters";
 import type { AxiosResponse } from "axios";
 
 const currentYear = new Date().getFullYear();

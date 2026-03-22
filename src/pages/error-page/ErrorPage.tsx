@@ -17,7 +17,9 @@ const ErrorPage: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h6">Упс, указанный URL не существует!</Typography>
+        <Typography variant="h6" gutterBottom>
+          Упс, указанный URL не существует!
+        </Typography>
         <Box>
           <Button
             variant="contained"

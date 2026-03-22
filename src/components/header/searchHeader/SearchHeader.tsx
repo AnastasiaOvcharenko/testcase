@@ -17,7 +17,7 @@ import NothingFound from "../../../shared/nothing-found/NothingFound";
 
 import { MovieSearchItem } from "./movieSearchItem/MovieSearchItem";
 
-import type { Movie } from "../../../types/movies/movies";
+import type { Movie } from "../../../types/movies";
 import type { AxiosResponse } from "axios";
 
 const SearchBar: React.FC = () => {
@@ -54,7 +54,6 @@ const SearchBar: React.FC = () => {
 
   const handleClickAway = function () {
     setShowResults(false);
-    console.log("away");
   };
 
   return (

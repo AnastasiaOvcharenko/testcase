@@ -1,4 +1,4 @@
-import type { Movie } from "../types/movies/movies";
+import type { Movie } from "../types/movies";
 
 export const getLengthStr = function (movieInfo: Movie) {
   const hours = Math.floor((movieInfo?.movieLength || 0) / 60);

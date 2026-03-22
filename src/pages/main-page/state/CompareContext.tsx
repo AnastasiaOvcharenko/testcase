@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import type { Movie } from "../../../types/movies/movies";
+import type { Movie } from "../../../types/movies";
 
 export const CompareContext = createContext<{
   movies: Movie[];

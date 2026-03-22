@@ -5,8 +5,7 @@ import noImagePic from "../../../assets/no-image.png";
 import { getLengthStr } from "../../../helpers/movie-helpers";
 import { CompareContext } from "../../../pages/main-page/state/CompareContext";
 
-import type { Genre, Movie } from "../../../types/movies/movies";
-
+import type { Genre, Movie } from "../../../types/movies";
 
 const ComparisonTable: React.FC = () => {
   const { movies } = useContext(CompareContext);

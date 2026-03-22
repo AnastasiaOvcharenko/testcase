@@ -5,9 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { getColorByRating } from "../../../../helpers/search-helpers";
 import { CompareContext } from "../../../../pages/main-page/state/CompareContext";
 
-import type { Movie } from "../../../../types/movies/movies";
-
-
+import type { Movie } from "../../../../types/movies";
 
 interface MovieSearchItemProps {
   movie: Movie;
