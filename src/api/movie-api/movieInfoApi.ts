@@ -1,11 +1,6 @@
-import axios from "axios";
+import type { AxiosPromise } from "axios";
+import { getApiCall } from "../apiBase";
 
-export const getMovieInfo = async function (id?: string) {
-  const apiKey = import.meta.env.VITE_API_TOKEN;
-  const apiUrl = `https://api.poiskkino.dev/v1.4/movie/${id}`;
-  return axios.get(apiUrl, {
-    headers: {
-      "x-api-key": apiKey,
-    },
-  });
+export const getMovieInfo = async function (id?: string): AxiosPromise {
+  return getApiCall(`v1.4/movie/${id}`);
 };
