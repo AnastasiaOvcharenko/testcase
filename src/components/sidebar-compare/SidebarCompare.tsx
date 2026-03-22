@@ -76,7 +76,14 @@ const SidebarCompare: React.FC = () => {
           <Button onClick={clearMovies}>Очистить</Button>
         </Box>
 
-        <Box height={"100%"}>
+        <Box
+          height={"100%"}
+          sx={{
+            overflow: "auto",
+            minWidth: 0,
+            flex: 1,
+          }}
+        >
           <ComparisonTable />
         </Box>
       </Box>
