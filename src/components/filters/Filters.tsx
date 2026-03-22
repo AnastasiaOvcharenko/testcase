@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Box,
   Button,
@@ -15,16 +15,20 @@ import {
   Slider,
   Typography,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import { testData } from "./testData";
-import { encodeFilters, generateMarks } from "../../helpers/filters-helpers";
+import { useEffect, useState } from "react";
+
 import { useSearchParams } from "react-router";
-import type { Filters } from "../../types/filters/filters";
-import { getFilterValues } from "../../api/filters-api/filtersApi";
-import type { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import NothingFound from "../../shared/nothing-found/NothingFound";
+
+import { getFilterValues } from "../../api/filters-api/filtersApi";
+import { encodeFilters, generateMarks } from "../../helpers/filters-helpers";
 import Loader from "../../shared/loader/Loader";
+import NothingFound from "../../shared/nothing-found/NothingFound";
+
+import type { Filters } from "../../types/filters/filters";
+import type { AxiosError, AxiosResponse } from "axios";
+
+
 
 const currentYear = new Date().getFullYear();
 const yearMarks = generateMarks(1990, currentYear, 5);
@@ -45,7 +49,6 @@ const FiltersBox: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    // setGenres(testData.map((entry) => entry.name));
     setLoading(true);
     getFilterValues()
       .then((response: AxiosResponse) => {

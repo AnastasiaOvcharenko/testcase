@@ -6,12 +6,15 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import noImagePic from "../../assets/no-image.png";
-import type { Movie } from "../../types/movies/movies";
-import { getColorByRating } from "../../helpers/search-helpers";
 import React, { useContext } from "react";
-import { CompareContext } from "../../pages/main-page/state/CompareContext";
 import { useNavigate } from "react-router";
+
+import noImagePic from "../../assets/no-image.png";
+import { getColorByRating } from "../../helpers/search-helpers";
+import { CompareContext } from "../../pages/main-page/state/CompareContext";
+
+import type { Movie } from "../../types/movies/movies";
+
 
 interface MovieCardProps {
   movie: Movie;

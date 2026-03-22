@@ -1,4 +1,5 @@
 import { type AxiosPromise } from "axios";
+
 import { getApiCall } from "../apiBase";
 
 interface Params {

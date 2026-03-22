@@ -1,4 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   ClickAwayListener,
@@ -7,15 +6,19 @@ import {
   TextField,
   useTheme,
 } from "@mui/material";
-// import { testData } from "../../../pages/main-page/testData";
-import type { Movie } from "../../../types/movies/movies";
+import React, { useEffect, useRef, useState } from "react";
+
+import { toast } from "react-toastify";
+
 import { getMovieBySearch } from "../../../api/search-api/searchApi";
 import useDebounce from "../../../hooks/useDebounce";
-import { MovieSearchItem } from "./movieSearchItem/MovieSearchItem";
-import { toast } from "react-toastify";
-import type { AxiosError, AxiosResponse } from "axios";
-import NothingFound from "../../../shared/nothing-found/NothingFound";
 import Loader from "../../../shared/loader/Loader";
+import NothingFound from "../../../shared/nothing-found/NothingFound";
+
+import { MovieSearchItem } from "./movieSearchItem/MovieSearchItem";
+
+import type { Movie } from "../../../types/movies/movies";
+import type { AxiosError, AxiosResponse } from "axios";
 
 const SearchBar: React.FC = () => {
   const theme = useTheme();

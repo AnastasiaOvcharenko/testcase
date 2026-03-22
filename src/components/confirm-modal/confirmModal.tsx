@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Dialog,
@@ -7,6 +6,7 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
+import React from "react";
 
 interface ConfirmModalProps {
   open: boolean;

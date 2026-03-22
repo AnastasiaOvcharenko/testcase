@@ -1,11 +1,13 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router";
-import SearchBar from "./searchHeader/SearchHeader";
+
 import ToggleTheme from "../../shared/toggle-theme/ToggleTheme";
+
+import SearchBar from "./searchHeader/SearchHeader";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();

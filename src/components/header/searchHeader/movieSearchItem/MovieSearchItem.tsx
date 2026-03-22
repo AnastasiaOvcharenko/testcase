@@ -1,9 +1,13 @@
 import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
-import { getColorByRating } from "../../../../helpers/search-helpers";
-import { useLocation, useNavigate } from "react-router";
-import type { Movie } from "../../../../types/movies/movies";
 import { useContext } from "react";
+import { useLocation, useNavigate } from "react-router";
+
+import { getColorByRating } from "../../../../helpers/search-helpers";
 import { CompareContext } from "../../../../pages/main-page/state/CompareContext";
+
+import type { Movie } from "../../../../types/movies/movies";
+
+
 
 interface MovieSearchItemProps {
   movie: Movie;

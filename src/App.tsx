@@ -1,11 +1,15 @@
 import { Route, Routes } from "react-router";
+
 import "./App.css";
-import MainPage from "./pages/main-page/MainPage";
-import LikesPage from "./pages/likes-page/LikesPage";
-import MoviePage from "./pages/movie-page/MoviePage";
-import ErrorPage from "./pages/error-page/ErrorPage";
 import { ToastContainer } from "react-toastify";
+
 import PaletteProvider from "./components/palette-provider/PaletteProvider";
+import ErrorPage from "./pages/error-page/ErrorPage";
+import LikesPage from "./pages/likes-page/LikesPage";
+import MainPage from "./pages/main-page/MainPage";
+import MoviePage from "./pages/movie-page/MoviePage";
+
+
 
 function App() {
   return (

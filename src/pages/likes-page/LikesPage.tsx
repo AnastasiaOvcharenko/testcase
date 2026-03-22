@@ -1,6 +1,8 @@
 import { Box, Typography } from "@mui/material";
+
 import Header from "../../components/header/Header";
 import MovieList from "../../components/movie-list/MovieList";
+
 import type { MovieFullInfo } from "../../types/movies/movies";
 
 const LikesPage: React.FC = () => {

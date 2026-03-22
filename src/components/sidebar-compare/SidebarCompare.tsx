@@ -1,3 +1,4 @@
+import CompareIcon from "@mui/icons-material/Compare";
 import {
   Box,
   Button,
@@ -6,9 +7,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import CompareIcon from "@mui/icons-material/Compare";
 import { useContext, useEffect, useState } from "react";
+
 import { CompareContext } from "../../pages/main-page/state/CompareContext";
+
 import ComparisonTable from "./comparison-table/ComparisonTable";
 
 const SidebarCompare: React.FC = () => {

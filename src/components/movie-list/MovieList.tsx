@@ -1,6 +1,8 @@
 import { Grid } from "@mui/material";
-import type { Movie } from "../../types/movies/movies";
+
 import { MovieCard } from "../card/Card";
+
+import type { Movie } from "../../types/movies/movies";
 
 interface MovieListProps {
   movieList: Movie[];

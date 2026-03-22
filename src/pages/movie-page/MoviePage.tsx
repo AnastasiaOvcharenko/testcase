@@ -1,17 +1,18 @@
-import { useParams } from "react-router";
 import { Box, Button, Chip, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import noImagePic from "../../assets/no-image.png";
-// import { testData } from "./testData";
-import Header from "../../components/header/Header";
-import type { MovieFullInfo } from "../../types/movies/movies";
-import { getMovieInfo } from "../../api/movie-api/movieInfoApi";
-import { getLengthStr } from "../../helpers/movie-helpers";
-import ConfirmModal from "../../components/confirm-modal/confirmModal";
-import Loader from "../../shared/loader/Loader";
-import type { AxiosError, AxiosResponse } from "axios";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
+
+import { getMovieInfo } from "../../api/movie-api/movieInfoApi";
+import noImagePic from "../../assets/no-image.png";
+import ConfirmModal from "../../components/confirm-modal/confirmModal";
+import Header from "../../components/header/Header";
+import { getLengthStr } from "../../helpers/movie-helpers";
+import Loader from "../../shared/loader/Loader";
 import NothingFound from "../../shared/nothing-found/NothingFound";
+
+import type { MovieFullInfo } from "../../types/movies/movies";
+import type { AxiosError, AxiosResponse } from "axios";
 
 export const MoviePage: React.FC = () => {
   const params = useParams();

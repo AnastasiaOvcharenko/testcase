@@ -1,4 +1,5 @@
 import { type AxiosPromise } from "axios";
+
 import { getApiCall } from "../apiBase";
 
 export const getMovieBySearch = async function (query: string): AxiosPromise {

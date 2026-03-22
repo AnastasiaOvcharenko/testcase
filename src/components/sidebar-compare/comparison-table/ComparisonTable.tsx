@@ -1,9 +1,12 @@
-import { useContext } from "react";
 import { Avatar, Box, Grid, Typography, useTheme } from "@mui/material";
-import { CompareContext } from "../../../pages/main-page/state/CompareContext";
-import { getLengthStr } from "../../../helpers/movie-helpers";
-import type { Genre, Movie } from "../../../types/movies/movies";
+import { useContext } from "react";
+
 import noImagePic from "../../../assets/no-image.png";
+import { getLengthStr } from "../../../helpers/movie-helpers";
+import { CompareContext } from "../../../pages/main-page/state/CompareContext";
+
+import type { Genre, Movie } from "../../../types/movies/movies";
+
 
 const ComparisonTable: React.FC = () => {
   const { movies } = useContext(CompareContext);

@@ -1,18 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
-// import { testData } from "./testData";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
-import Header from "../../components/header/Header";
+import { toast } from "react-toastify";
+
 import { getMoviesByFilters } from "../../api/movie-api/movieListApi";
-import type { Movie } from "../../types/movies/movies";
+import FiltersBox from "../../components/filters/Filters";
+import Header from "../../components/header/Header";
 import MovieList from "../../components/movie-list/MovieList";
 import SidebarCompare from "../../components/sidebar-compare/SidebarCompare";
-import { CompareProvider } from "./state/CompareProvider";
-import FiltersBox from "../../components/filters/Filters";
 import Loader from "../../shared/loader/Loader";
-import { toast } from "react-toastify";
-import type { AxiosError, AxiosResponse } from "axios";
 import NothingFound from "../../shared/nothing-found/NothingFound";
+
+import { CompareProvider } from "./state/CompareProvider";
+
+import type { Movie } from "../../types/movies/movies";
+import type { AxiosError, AxiosResponse } from "axios";
 
 const MainPage: React.FC = () => {
   const [movieList, setMovieList] = useState<Movie[]>([]);
